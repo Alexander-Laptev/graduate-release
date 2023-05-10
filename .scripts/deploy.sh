@@ -3,11 +3,9 @@ set -e
 
 echo "Deployment started ..."
 
+cd ~/var/www/graduate
+
 docker-compose down
-
-docker-compose build
-
-docker-compose -f docker-compose.prod.yml up -d
 
 docker exec -it graduate_app bash
 # Enter maintenance mode or return true
@@ -15,7 +13,7 @@ docker exec -it graduate_app bash
 (php artisan down) || true
 
 # Pull the latest version of the app
-git pull origin production
+git pull
 
 # Install composer dependencies
 composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader
@@ -34,5 +32,11 @@ php artisan migrate --force
 
 # Exit maintenance mode
 php artisan up
+
+exit
+
+docker-compose build
+
+docker-compose -f docker-compose.prod.yml up -d
 
 echo "Deployment finished!"

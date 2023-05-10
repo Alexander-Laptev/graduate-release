@@ -5,8 +5,6 @@ echo "Deployment started ..."
 
 git pull
 
-1234
-
 docker-compose -f docker-compose.prod.yml up -d
 
 docker exec -it graduate_app bash

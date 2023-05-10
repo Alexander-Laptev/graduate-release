@@ -8,7 +8,7 @@ cd var/www/graduate
 
 git pull
 
-docker-compose down
+docker-compose -f docker-compose.prod.yml up -d
 
 docker exec -it graduate_app bash
 
@@ -28,9 +28,6 @@ php artisan clear-compiled
 # Recreate cache
 php artisan optimize
 
-# Compile npm assets
-npm run prod
-
 # Run database migrations
 php artisan migrate --force
 
@@ -38,9 +35,5 @@ php artisan migrate --force
 php artisan up
 
 exit
-
-docker-compose build
-
-docker-compose -f docker-compose.prod.yml up -d
 
 echo "Deployment finished!"

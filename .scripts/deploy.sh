@@ -3,9 +3,6 @@ set -e
 
 echo "Deployment started ..."
 
-cd ..
-cd var/www/graduate
-
 git pull
 
 docker-compose -f docker-compose.prod.yml up -d

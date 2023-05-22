@@ -12,7 +12,7 @@ class ServiceController extends Controller
      */
     public function index()
     {
-        return 'Страница всех услуг';
+        return view('admin.services.index');
     }
 
     /**

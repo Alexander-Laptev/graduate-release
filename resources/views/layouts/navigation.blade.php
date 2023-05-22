@@ -6,7 +6,7 @@
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('home') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
+                        <x-application-logo class="block h-20 w-auto fill-current text-gray-800" />
                     </a>
                 </div>
 
@@ -14,6 +14,12 @@
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Запись') }}
+                    </x-nav-link>
+                </div>
+
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-nav-link :href="route('profile.edit')" :active="request()->routeIs('profile.edit')">
+                        {{ __('Личный кабинет') }}
                     </x-nav-link>
                 </div>
 
@@ -95,6 +101,7 @@
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
         </div>
+
         @if(!empty(auth()->user()->name))
             <div class="pt-4 pb-1 border-t border-gray-200">
                 <div class="px-4">

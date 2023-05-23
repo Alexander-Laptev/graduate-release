@@ -1,5 +1,9 @@
 <x-app-layout>
-    <div class="flex justify-center">
+    <x-slot name="header">
+        @include('layouts.header-admin')
+    </x-slot>
+
+    <div class="flex justify-center my-5">
         <a href="{{ route('admin.services.create') }}">
         <x-primary-button >
             {{ __('Создать услугу') }}

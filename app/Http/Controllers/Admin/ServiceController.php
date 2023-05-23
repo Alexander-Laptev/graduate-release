@@ -20,7 +20,7 @@ class ServiceController extends Controller
      */
     public function create()
     {
-        return 'Создание услуги';
+        return view('admin.services.create');
     }
 
     /**

@@ -2,19 +2,19 @@
     <x-slot name="header">
         <div class="flex">
             <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-            <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+            <x-nav-link :href="route('home')" :active="request()->routeIs('home')">
                 {{ __('Запись') }}
             </x-nav-link>
             </div>
 
             <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                <x-nav-link :href="route('admin')" :active="request()->routeIs('admin')">
+                <x-nav-link :href="route('home')" :active="request()->routeIs('home')">
                     {{ __('Салоны') }}
                 </x-nav-link>
             </div>
 
             <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                <x-nav-link :href="route('admin')" :active="request()->routeIs('admin')">
+                <x-nav-link :href="route('home')" :active="request()->routeIs('home')">
                     {{ __('Мастера') }}
                 </x-nav-link>
             </div>

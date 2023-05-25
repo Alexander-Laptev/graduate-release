@@ -1,4 +1,6 @@
 <x-app-layout>
+    @section('title', 'Добавление услуги')
+
     <x-slot name="header">
         @include('layouts.header-admin')
     </x-slot>
@@ -7,7 +9,7 @@
             <form method="POST" action="{{route('admin.services.store')}}">
 
                 <div>
-                    <x-input-label for="name" :value="__('Наименование услуги')" />
+                    <x-input-label for="name" :value="__('Наименование')" />
                     <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="on" />
                     <x-input-error :messages="$errors->get('name')" class="mt-2" />
                 </div>
@@ -33,21 +35,19 @@
                 <div class="mt-4">
                     <x-input-label for="time" :value="__('Время выполнения')" />
                     <x-text-input id="time" class="block mt-1 w-full" type="time" name="time" :value="old('time')" required autocomplete="on" />
-                    <x-input-error :messages="$errors->get('subview')" class="mt-2" />
+                    <x-input-error :messages="$errors->get('time')" class="mt-2" />
                 </div>
 
                 <div class="mt-4">
                     <x-input-label for="description" :value="__('Описание')" />
                     <x-text-area id="description" class="block mt-1 w-full" type="text" name="description" :value="('description')" autocomplete="on" />
-                    <x-input-error :messages="$errors->get('subview')" class="mt-2" />
+                    <x-input-error :messages="$errors->get('description')" class="mt-2" />
                 </div>
 
                 <div class="flex items-center justify-center mt-4">
-
                     <x-primary-button class="my-5">
-                        {{ __('Создать') }}
+                        {{ __('Добавить') }}
                     </x-primary-button>
-
                 </div>
             </form>
         </div>

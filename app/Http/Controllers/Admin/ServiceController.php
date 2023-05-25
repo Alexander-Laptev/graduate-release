@@ -36,7 +36,7 @@ class ServiceController extends Controller
      */
     public function show(string $id)
     {
-        return 'Показ услуги';
+        return view('admin.services.show');
     }
 
     /**
@@ -44,7 +44,7 @@ class ServiceController extends Controller
      */
     public function edit(string $id)
     {
-        return 'Изменение услуги';
+        return view('admin.services.edit');
     }
 
     /**

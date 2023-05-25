@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\Admin\EmployeeController;
 use App\Http\Controllers\Admin\PostController;
+use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\SaloonController;
+use App\Http\Controllers\Admin\CityController;
 use Illuminate\Support\Facades\Route;
 use \App\Http\Controllers\Admin\AdminController;
 use \App\Http\Controllers\Admin\ServiceController;
@@ -61,4 +63,30 @@ Route::prefix('admin')->group( function () {
     Route::put('posts/{post}/edit', [PostController::class, 'edit'])->name('admin.posts.edit');
 
     Route::delete('post/{post}/destroy', [PostController::class, 'destroy'])->name('admin.posts.destroy');
+
+//  Города
+    Route::get('cities/', [CityController::class, 'index'])->name('admin.cities');
+
+    Route::get('cities/create', [CityController::class, 'create'])->name('admin.cities.create');
+
+    Route::post('cities/', [CityController::class, 'store'])->name('admin.cities.store');
+
+    Route::get('cities/{city}', [CityController::class, 'show'])->name('admin.cities.show');
+
+    Route::put('cities/{city}/edit', [CityController::class, 'edit'])->name('admin.cities.edit');
+
+    Route::delete('cities/{city}/destroy', [CityController::class, 'destroy'])->name('admin.cities.destroy');
+
+//  Роли
+    Route::get('roles/', [RoleController::class, 'index'])->name('admin.roles');
+
+    Route::get('roles/create', [RoleController::class, 'create'])->name('admin.roles.create');
+
+    Route::post('roles/', [RoleController::class, 'store'])->name('admin.roles.store');
+
+    Route::get('roles/{role}', [RoleController::class, 'show'])->name('admin.roles.show');
+
+    Route::put('roles/{role}/edit', [RoleController::class, 'edit'])->name('admin.roles.edit');
+
+    Route::delete('roles/{role}/destroy', [RoleController::class, 'destroy'])->name('admin.roles.destroy');
 });

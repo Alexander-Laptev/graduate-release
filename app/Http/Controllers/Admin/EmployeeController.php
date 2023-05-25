@@ -12,7 +12,7 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        //
+        return view('admin.employees.index');
     }
 
     /**
@@ -20,7 +20,7 @@ class EmployeeController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.employees.create');
     }
 
     /**
@@ -36,7 +36,7 @@ class EmployeeController extends Controller
      */
     public function show(string $id)
     {
-        //
+        return view('admin.employees.show');
     }
 
     /**
@@ -44,7 +44,7 @@ class EmployeeController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        return view('admin.employees.edit');
     }
 
     /**

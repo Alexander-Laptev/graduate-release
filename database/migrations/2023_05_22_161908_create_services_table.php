@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('view');
             $table->string('subview')->nullable();
-            $table->decimal('cost');
+            $table->decimal('cost')->unsigned();
             $table->integer('time');
             $table->text('description')->nullable();
             $table->timestamps();

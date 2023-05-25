@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Post;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -12,7 +13,8 @@ class PostController extends Controller
      */
     public function index()
     {
-        return 'Страница всех услуг';
+        $posts = Post::all(['name']);
+        return view('admin.posts.index', compact('posts'));
     }
 
     /**
@@ -20,7 +22,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        return 'Создание услуги';
+        return view('admin.posts.create');
     }
 
     /**
@@ -28,7 +30,11 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        return 'Отправка формы услуги';
+        $post = Post::query()->create([
+            'name' => $request->name,
+        ]);
+
+        return redirect()->route('admin.posts');
     }
 
     /**
@@ -36,7 +42,7 @@ class PostController extends Controller
      */
     public function show(string $id)
     {
-        return 'Показ услуги';
+        return view('admin.posts.show');
     }
 
     /**
@@ -44,7 +50,7 @@ class PostController extends Controller
      */
     public function edit(string $id)
     {
-        return 'Изменение услуги';
+        return view('admin.posts.edit');
     }
 
     /**

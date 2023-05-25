@@ -48,7 +48,7 @@ class SaloonController extends Controller
             'description' => $request->description,
         ]);
 
-        return redirect()->route('admin.cities');
+        return redirect()->route('admin.saloons');
     }
 
     /**

@@ -7,7 +7,7 @@
     <div class="min-h-0 flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100">
         <div class="w-full lg:max-w-3xl sm:max-w-md  mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
             <form method="POST" action="{{route('admin.services.store')}}">
-
+            @csrf
                 <div>
                     <x-input-label for="name" :value="__('Наименование')" />
                     <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="on" />
@@ -15,15 +15,23 @@
                 </div>
 
                 <div class="mt-4">
-                    <x-input-label for="view" :value="__('Тип')" />
-                    <x-text-input id="view" class="block mt-1 w-full" type="text" name="view" :value="old('view')" required autocomplete="on" />
-                    <x-input-error :messages="$errors->get('view')" class="mt-2" />
+                    <x-input-label for="view_id" :value="__('Тип')" />
+                    <x-select id="view_id" class="mt-1 w-full" name="view_id" :value="old('view_id')" required autofocus autocomplete="on">
+                        @foreach($views as $view)
+                            <option value="{{ $view->id }}">{{ $view->name }}</option>
+                        @endforeach
+                    </x-select>
+                    <x-input-error :messages="$errors->get('view_id')" class="mt-2" />
                 </div>
 
                 <div class="mt-4">
-                    <x-input-label for="subview" :value="__('Подтип')" />
-                    <x-text-input id="subview" class="block mt-1 w-full" type="text" name="subview" :value="old('subview')" autocomplete="on" />
-                    <x-input-error :messages="$errors->get('subview')" class="mt-2" />
+                    <x-input-label for="subview_id" :value="__('Подтип')" />
+                    <x-select id="subview_id" class="mt-1 w-full" name="subview_id" :value="old('subview_id')" required autofocus autocomplete="on">
+                        @foreach($subviews as $subview)
+                            <option value="{{ $subview->id }}">{{ $subview->name }}</option>
+                        @endforeach
+                    </x-select>
+                    <x-input-error :messages="$errors->get('subview_id')" class="mt-2" />
                 </div>
 
                 <div class="mt-4">

@@ -3,7 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Service;
+use App\Models\Subview;
+use App\Models\View;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ServiceController extends Controller
 {
@@ -12,7 +16,11 @@ class ServiceController extends Controller
      */
     public function index()
     {
-        return view('admin.services.index');
+        $services = Service::query()->join('views', 'services.view_id', '=', 'views.id')
+            ->join('subviews', 'services.subview_id', '=', 'subviews.id')
+            ->get(['views.name as vname', 'subviews.name as sname', 'services.name', 'cost', 'time', 'description']);
+        dd($services->toArray());
+        return view('admin.services.index', compact('services'));
     }
 
     /**
@@ -20,7 +28,10 @@ class ServiceController extends Controller
      */
     public function create()
     {
-        return view('admin.services.create');
+        $views = View::all(['id', 'name']);
+        $subviews = Subview::all(['id', 'name']);
+
+        return view('admin.services.create', compact(['views', 'subviews']));
     }
 
     /**
@@ -28,7 +39,16 @@ class ServiceController extends Controller
      */
     public function store(Request $request)
     {
-        return 'Отправка формы услуги';
+        $cities = Service::query()->create([
+            'name' => $request->name,
+            'view_id' => $request->view_id,
+            'subview_id' => $request->subview_id,
+            'cost' => $request->cost,
+            'time' => $request->time,
+            'description' => $request->description,
+        ]);
+
+        return redirect()->route('admin.services');
     }
 
     /**
@@ -36,7 +56,7 @@ class ServiceController extends Controller
      */
     public function show(string $id)
     {
-        return 'Показ услуги';
+        return view('admin.services.show');
     }
 
     /**
@@ -44,7 +64,7 @@ class ServiceController extends Controller
      */
     public function edit(string $id)
     {
-        return 'Изменение услуги';
+        return view('admin.services.edit');
     }
 
     /**

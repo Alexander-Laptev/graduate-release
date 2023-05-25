@@ -6,7 +6,7 @@
 /storage/*.key
 /vendor
 /tmp
-/public/images
+/public/pictures
 .env
 .env.backup
 .env.production

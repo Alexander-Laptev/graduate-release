@@ -11,8 +11,8 @@ class Service extends Model
 
     protected $fillable = [
         'name',
-        'view',
-        'subview',
+        'view_id',
+        'subview_id',
         'cost',
         'time',
         'description',

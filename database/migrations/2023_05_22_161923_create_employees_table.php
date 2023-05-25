@@ -25,8 +25,8 @@ return new class extends Migration
             $table->string('number_phone')->unique();
             $table->integer('post_id');
             $table->integer('saloon_id');
-            $table->string('picture');
-            $table->text('description');
+            $table->string('picture')->nullable();
+            $table->text('description')->nullable();
             $table->timestamps();
         });
     }

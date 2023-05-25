@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\City;
+use App\Models\Saloon;
 use Illuminate\Http\Request;
+use function Monolog\toArray;
 
 class SaloonController extends Controller
 {
@@ -12,7 +15,9 @@ class SaloonController extends Controller
      */
     public function index()
     {
-        //
+        $saloons = Saloon::query()->join('cities', 'saloons.city_id', '=', 'cities.id')
+            ->get(['cities.name', 'street', 'home', 'open', 'close', 'number_phone']);
+        return view('admin.saloons.index', compact('saloons'));
     }
 
     /**
@@ -20,7 +25,8 @@ class SaloonController extends Controller
      */
     public function create()
     {
-        //
+        $cities = City::all(['id', 'name']);
+        return view('admin.saloons.create', compact('cities'));
     }
 
     /**
@@ -28,7 +34,21 @@ class SaloonController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $pictureName = time().'.'.$request->picture->extension();
+        $request->picture->move(public_path('pictures'), $pictureName);
+
+        $cities = Saloon::query()->create([
+            'city_id' => $request->city_id,
+            'street' => $request->street,
+            'home' => $request->home,
+            'picture' => $pictureName,
+            'open' => $request->open,
+            'close' => $request->close,
+            'number_phone' => $request->number_phone,
+            'description' => $request->description,
+        ]);
+
+        return redirect()->route('admin.saloons');
     }
 
     /**
@@ -36,7 +56,7 @@ class SaloonController extends Controller
      */
     public function show(string $id)
     {
-        //
+        return view('admin.saloons.show');
     }
 
     /**
@@ -44,7 +64,7 @@ class SaloonController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        return view('admin.saloons.edit');
     }
 
     /**

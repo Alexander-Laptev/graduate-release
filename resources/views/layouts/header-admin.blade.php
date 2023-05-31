@@ -18,6 +18,18 @@
     </div>
 
     <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+        <x-nav-link :href="route('admin.views')" :active="request()->routeIs('admin.views')">
+            {{ __('Типы') }}
+        </x-nav-link>
+    </div>
+
+    <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+        <x-nav-link :href="route('admin.service_employees')" :active="request()->routeIs('admin.service_employees')">
+            {{ __('Услуги и сотрудники') }}
+        </x-nav-link>
+    </div>
+
+    <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
         <x-nav-link :href="route('admin.posts')" :active="request()->routeIs('admin.posts')">
             {{ __('Должности') }}
         </x-nav-link>

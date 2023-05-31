@@ -5,6 +5,8 @@ use App\Http\Controllers\Admin\PostController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\SaloonController;
 use App\Http\Controllers\Admin\CityController;
+use App\Http\Controllers\Admin\Service_EmployeeController;
+use App\Http\Controllers\Admin\ViewController;
 use Illuminate\Support\Facades\Route;
 use \App\Http\Controllers\Admin\AdminController;
 use \App\Http\Controllers\Admin\ServiceController;
@@ -89,4 +91,30 @@ Route::prefix('admin')->group( function () {
     Route::put('roles/{role}/edit', [RoleController::class, 'edit'])->name('admin.roles.edit');
 
     Route::delete('roles/{role}/destroy', [RoleController::class, 'destroy'])->name('admin.roles.destroy');
+
+// Типы
+    Route::get('views/', [ViewController::class, 'index'])->name('admin.views');
+
+    Route::get('views/create', [ViewController::class, 'create'])->name('admin.views.create');
+
+    Route::post('views/', [ViewController::class, 'store'])->name('admin.views.store');
+
+    Route::get('views/{view}', [ViewController::class, 'show'])->name('admin.views.show');
+
+    Route::put('views/{view}/edit', [ViewController::class, 'edit'])->name('admin.views.edit');
+
+    Route::delete('views/{view}/destroy', [ViewController::class, 'destroy'])->name('admin.views.destroy');
+
+// Сотрудники_Услуги
+    Route::get('service_employees/', [Service_EmployeeController::class, 'index'])->name('admin.service_employees');
+
+    Route::get('service_employees/create', [Service_EmployeeController::class, 'create'])->name('admin.service_employees.create');
+
+    Route::post('service_employees/', [Service_EmployeeController::class, 'store'])->name('admin.service_employees.store');
+
+    Route::get('service_employees/{service_employee}', [Service_EmployeeController::class, 'show'])->name('admin.service_employees.show');
+
+    Route::put('service_employees/{service_employee}/edit', [Service_EmployeeController::class, 'edit'])->name('admin.service_employees.edit');
+
+    Route::delete('service_employees/{service_employee}/destroy', [Service_EmployeeController::class, 'destroy'])->name('admin.service_employees.destroy');
 });

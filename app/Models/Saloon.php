@@ -19,4 +19,8 @@ class Saloon extends Model
         'number_phone',
         'description',
     ];
+    protected $casts = [
+        'open' => 'datetime',
+        'close' => 'datetime',
+    ];
 }

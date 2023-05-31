@@ -3,6 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Employee;
+use App\Models\Post;
+use App\Models\Saloon;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class EmployeeController extends Controller
@@ -12,7 +16,11 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        return view('admin.employees.index');
+        $employees = Employee::query()->join('posts', 'employees.post_id', '=', 'posts.id')
+            ->join('saloons', 'employees.saloon_id', '=', 'saloons.id')
+            ->join('cities', 'saloons.city_id', '=', 'cities.id')
+            ->get(['employees.name', 'surname', 'patronymic', 'birthday', 'gender', 'experience', 'address', 'employees.number_phone', 'posts.name as post', 'cities.name as city', 'saloons.street', 'saloons.home']);
+        return view('admin.employees.index', compact('employees'));
     }
 
     /**
@@ -20,7 +28,12 @@ class EmployeeController extends Controller
      */
     public function create()
     {
-        return view('admin.employees.create');
+        $users = User::query()->get(['id', 'name', 'phone']);
+        $posts = Post::all();
+        $saloons = Saloon::query()->join('cities', 'saloons.city_id', '=', 'cities.id')
+            ->get(['saloons.id', 'cities.name as city', 'street', 'home']);
+
+        return view('admin.employees.create', compact(['users', 'posts', 'saloons']));
     }
 
     /**
@@ -28,7 +41,27 @@ class EmployeeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $pictureName = time().'.'.$request->picture->extension();
+        $request->picture->move(public_path('pictures'), $pictureName);
+
+        $employees = Employee::query()->create([
+            'user_id' => $request->user_id,
+            'name' => $request->name,
+            'surname'  => $request->surname,
+            'patronymic' => $request->patronymic,
+            'birthday' => $request->birthday,
+            'workday' => $request->workday,
+            'gender' => $request->gender,
+            'experience' => $request->experience,
+            'address' => $request->address,
+            'number_phone' => $request->number_phone,
+            'post_id' => $request->post_id,
+            'saloon_id' => $request->saloon_id,
+            'picture' => $pictureName,
+            'description' => $request->description,
+        ]);
+
+        return redirect()->route('admin.employees');
     }
 
     /**

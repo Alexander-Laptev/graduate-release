@@ -12,7 +12,9 @@
             </x-primary-button>
         </a>
     </div>
-
+    @if(empty($employees->toArray()))
+        {{ __('Нет сотрудников.') }}
+    @else
     <x-table>
         <x-table-head>
             <tr>
@@ -75,36 +77,41 @@
             </tr>
         </x-table-head>
         <x-table-body>
+            @foreach($employees as $employee)
             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                 <td class="px-6 py-4">
-                    Александр
+                    {{ $employee->name }}
                 </td>
                 <td class="px-6 py-4">
-                    Лаптев
+                    {{ $employee->surname }}
                 </td>
                 <td class="px-6 py-4">
-                    Романович
+                    {{ $employee->patronymic }}
                 </td>
                 <td class="px-6 py-4">
-                    16.07.2003
+                    {{ $employee->birthday }}
                 </td>
                 <td class="px-6 py-4">
-                    Мужской
+                    @if($employee->gender == 0)
+                        Мужской
+                    @else
+                        Женский
+                    @endif
                 </td>
                 <td class="px-6 py-4">
-                    5
+                    {{ $employee->experience }}
                 </td>
                 <td class="px-6 py-4">
-                    Школьная 23
+                    {{ $employee->address }}
                 </td>
                 <td class="px-6 py-4">
-                    89127514020
+                    {{ $employee->number_phone }}
                 </td>
                 <td class="px-6 py-4">
-                    Мастер
+                    {{ $employee->post }}
                 </td>
                 <td class="px-6 py-4">
-                    Ижевск, Студенческая 7
+                    г. {{ $employee->city }},  ул. {{ $employee->street }} д. {{ $employee->home }}
                 </td>
                 <td class="px-6 py-4 text-right">
                     <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Редактировать</a>
@@ -113,7 +120,8 @@
                     <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Удалить</a>
                 </td>
             </tr>
-
+            @endforeach
         </x-table-body>
     </x-table>
+    @endif
 </x-app-layout>

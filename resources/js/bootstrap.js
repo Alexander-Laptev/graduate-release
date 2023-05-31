@@ -30,3 +30,14 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 //     forceTLS: (import.meta.env.VITE_PUSHER_SCHEME ?? 'https') === 'https',
 //     enabledTransports: ['ws', 'wss'],
 // });
+import { Collapse, initTE, } from "tw-elements";
+
+initTE({ Collapse });
+
+// Initialization for ES Users
+import {
+    Ripple,
+} from "tw-elements";
+
+initTE({ Ripple });
+

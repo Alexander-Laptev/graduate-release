@@ -13,8 +13,8 @@
 
                     <form action="{{ route('record.saloon.store')}}" method="POST">
                         @csrf
-                        @foreach($saloons as $saloon)
                             <div class="mt-4 grid grid-cols-3 gap-4 place-items-stretch">
+                                @foreach($saloons as $saloon)
                                 <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
                                     <a type="button">
                                         <img class="object-cover h-48 w-96 rounded-t-lg" src="{{ asset('/pictures').'/'.$saloon->picture}}" alt="" />
@@ -31,8 +31,8 @@
                                         </button>
                                     </div>
                                 </div>
+                                @endforeach
                             </div>
-                        @endforeach
                     </form>
                 </div>
             </div>

@@ -6,17 +6,21 @@
     </x-slot>
     <div class="min-h-0 flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100">
         <div class="w-full lg:max-w-3xl sm:max-w-md  mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
-            <form method="POST" action="{{route('admin.employees.store')}}">
-
+            <form method="POST" action="{{route('admin.employees.store')}}" enctype="multipart/form-data">
+            @csrf
                 <div>
-                    <x-input-label for="user_id" :value="__('Пользователь')" />
-                    <x-text-input id="user_id" class="block mt-1 w-full" type="text" name="user_id" :value="old('user_id')" autofocus autocomplete="on" />
+                    <x-input-label for="user_id" :value="__('Учетная запись')" />
+                    <x-select id="user_id" class="mt-1 w-full" name="user_id" :value="old('user_id')" required autofocus autocomplete="on">
+                        @foreach($users as $user)
+                            <option value="{{ $user->id }}">{{ $user->phone }}</option>
+                        @endforeach
+                    </x-select>
                     <x-input-error :messages="$errors->get('user_id')" class="mt-2" />
                 </div>
 
                 <div class="mt-4">
                     <x-input-label for="name" :value="__('Имя')" />
-                    <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" autocomplete="on" />
+                    <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" autocomplete="off"/>
                     <x-input-error :messages="$errors->get('name')" class="mt-2" />
                 </div>
 
@@ -46,7 +50,10 @@
 
                 <div class="mt-4">
                     <x-input-label for="gender" :value="__('Пол')" />
-                    <x-text-input id="gender" class="block mt-1 w-full" type="text" name="gender" :value="old('gender')" autocomplete="on" />
+                    <x-select id="gender" class="mt-1 w-full" name="gender" :value="old('gender')" required autofocus autocomplete="off">
+                            <option value="0">{{ __('Мужской') }}</option>
+                            <option value="1">{{ __('Женский') }}</option>
+                    </x-select>
                     <x-input-error :messages="$errors->get('gender')" class="mt-2" />
                 </div>
 
@@ -70,13 +77,21 @@
 
                 <div class="mt-4">
                     <x-input-label for="post_id" :value="__('Должность')" />
-                    <x-text-input id="post_id" class="block mt-1 w-full" type="text" name="post_id" :value="old('post_id')" required autocomplete="on" />
+                    <x-select id="post_id" class="mt-1 w-full" name="post_id" :value="old('post_id')" required autofocus autocomplete="off">
+                        @foreach($posts as $post)
+                            <option value="{{ $post->id }}">{{ $post->name }}</option>
+                        @endforeach
+                    </x-select>
                     <x-input-error :messages="$errors->get('post_id')" class="mt-2" />
                 </div>
 
                 <div class="mt-4">
                     <x-input-label for="saloon_id" :value="__('Салон')" />
-                    <x-text-input id="saloon_id" class="block mt-1 w-full" type="text" name="saloon_id" :value="old('saloon_id')" required autocomplete="on" />
+                    <x-select id="saloon_id" class="mt-1 w-full" name="saloon_id" :value="old('saloon_id')" required autofocus autocomplete="off">
+                        @foreach($saloons as $saloon)
+                            <option value="{{ $saloon->id }}">г. {{ $saloon->city }},  ул. {{ $saloon->street }} д. {{ $saloon->home }}</option>
+                        @endforeach
+                    </x-select>
                     <x-input-error :messages="$errors->get('saloon_id')" class="mt-2" />
                 </div>
 

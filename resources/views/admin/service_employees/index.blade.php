@@ -1,26 +1,32 @@
 <x-app-layout>
-    @section('title', 'Роли')
+    @section('title', 'Услуги и сотрудники')
 
     <x-slot name="header">
         @include('layouts.header-admin')
     </x-slot>
 
     <div class="flex justify-center my-5">
-        <a href="{{ route('admin.roles.create') }}">
+        <a href="{{ route('admin.service_employees.create') }}">
             <x-primary-button >
-                {{ __('Добавить роль') }}
+                {{ __('Добавить запись') }}
             </x-primary-button>
         </a>
     </div>
-    @if(empty($roles->toArray()))
-        {{ __('Нет ролей.') }}
+    @if(empty($services->toArray()))
+        {{ __('Нет записей.') }}
     @else
         <x-table>
             <x-table-head>
                 <tr>
                     <th scope="col" class="px-6 py-3">
                         <div class="flex items-center">
-                            {{ __('Наименование') }}
+                            {{ __('Услуга') }}
+                        </div>
+                    </th>
+
+                    <th scope="col" class="px-6 py-3">
+                        <div class="flex items-center">
+                            {{ __('Сотрудник') }}
                         </div>
                     </th>
 
@@ -34,10 +40,13 @@
                 </tr>
             </x-table-head>
             <x-table-body>
-                @foreach($roles as $role)
+                @foreach($services as $service)
                     <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                         <td class="px-6 py-4">
-                            {{ $role->name }}
+                            {{ $service->service_name }}
+                        </td>
+                        <td class="px-6 py-4">
+                            {{ $service->employee_name.' '.$service->employee_surname }}
                         </td>
                         <td class="px-6 py-4 text-right">
                             <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Редактировать</a>

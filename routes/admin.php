@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\SaloonController;
 use App\Http\Controllers\Admin\CityController;
 use App\Http\Controllers\Admin\Service_EmployeeController;
+use App\Http\Controllers\Admin\SubviewController;
 use App\Http\Controllers\Admin\ViewController;
 use Illuminate\Support\Facades\Route;
 use \App\Http\Controllers\Admin\AdminController;
@@ -104,6 +105,19 @@ Route::prefix('admin')->group( function () {
     Route::put('views/{view}/edit', [ViewController::class, 'edit'])->name('admin.views.edit');
 
     Route::delete('views/{view}/destroy', [ViewController::class, 'destroy'])->name('admin.views.destroy');
+
+// Подтипы
+    Route::get('subviews/', [SubviewController::class, 'index'])->name('admin.subviews');
+
+    Route::get('subviews/create', [SubviewController::class, 'create'])->name('admin.subviews.create');
+
+    Route::post('subviews/', [SubviewController::class, 'store'])->name('admin.subviews.store');
+
+    Route::get('subviews/{subview}', [SubviewController::class, 'show'])->name('admin.subviews.show');
+
+    Route::put('subviews/{subview}/edit', [SubviewController::class, 'edit'])->name('admin.subviews.edit');
+
+    Route::delete('subviews/{subview}/destroy', [SubviewController::class, 'destroy'])->name('admin.subviews.destroy');
 
 // Сотрудники_Услуги
     Route::get('service_employees/', [Service_EmployeeController::class, 'index'])->name('admin.service_employees');

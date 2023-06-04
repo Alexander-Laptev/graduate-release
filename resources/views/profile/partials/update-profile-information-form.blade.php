@@ -25,25 +25,25 @@
 
         <div>
             <x-input-label for="surname" :value="__('Фамилия')" />
-            <x-text-input id="surname" name="surname" type="text" class="mt-1 block w-full" :value="old('surname', $customer->surname)" required autocomplete="on" />
+            <x-text-input id="surname" name="surname" type="text" class="mt-1 block w-full" :value="old('surname', $customer->surname)" autocomplete="on" />
             <x-input-error class="mt-2" :messages="$errors->get('surname')" />
         </div>
 
         <div>
             <x-input-label for="patronymic" :value="__('Отчество')" />
-            <x-text-input id="patronymic" name="patronymic" type="text" class="mt-1 block w-full" :value="old('patronymic', $customer->patronymic)" required autocomplete="on" />
+            <x-text-input id="patronymic" name="patronymic" type="text" class="mt-1 block w-full" :value="old('patronymic', $customer->patronymic)" autocomplete="on" />
             <x-input-error class="mt-2" :messages="$errors->get('patronymic')" />
         </div>
 
         <div>
             <x-input-label for="login" :value="__('Логин')" />
-            <x-text-input id="login" name="login" type="text" class="mt-1 block w-full" :value="old('login', $user->login)" required autocomplete="on" />
+            <x-text-input id="login" name="login" type="text" class="mt-1 block w-full" :value="old('login', $user->login)" autocomplete="on" />
             <x-input-error class="mt-2" :messages="$errors->get('login')" />
         </div>
 
         <div>
             <x-input-label for="phone" :value="__('Номер телефона')" />
-            <x-text-input id="phone" name="name" type="text" class="mt-1 block w-full" :value="old('phone', $user->phone)" required autocomplete="on" />
+            <x-text-input id="phone" name="name" type="text" class="mt-1 block w-full" :value="old('phone', $user->phone)" autocomplete="on" />
             <x-input-error class="mt-2" :messages="$errors->get('phone')" />
         </div>
 
@@ -73,25 +73,25 @@
 
         <div>
             <x-input-label for="birthday" :value="__('День рождения')" />
-            <x-text-input id="birthday" name="birthday" type="date" class="mt-1 block w-full" :value="old('birthday', $customer->birthday)" required autocomplete="on" />
+            <x-text-input id="birthday" name="birthday" type="date" class="mt-1 block w-full" :value="old('birthday', $customer->birthday)" autocomplete="on" />
             <x-input-error class="mt-2" :messages="$errors->get('birthday')" />
         </div>
 
         <div>
             <x-input-label for="picture" :value="__('Фото')" />
-            <x-text-input id="picture" name="picture" type="file" class="mt-1 block w-full" :value="old('picture', $customer->picture)" required autocomplete="on" />
+            <x-text-input id="picture" name="picture" type="file" class="mt-1 block w-full" :value="old('picture', $customer->picture)" autocomplete="on" />
             <x-input-error class="mt-2" :messages="$errors->get('picture')" />
         </div>
 
         <div>
             <x-input-label for="card" :value="__('Карта')" />
-            <x-text-input id="card" name="card" type="text" disabled="true" class="mt-1 block w-full" :value="old('card', $customer->card)" required autocomplete="on" />
+            <x-text-input id="card" name="card" type="text" disabled="true" class="mt-1 block w-full" :value="old('card', $customer->card)" autocomplete="on" />
             <x-input-error class="mt-2" :messages="$errors->get('card')" />
         </div>
 
         <div>
             <x-input-label for="role_id" :value="__('Роль')" />
-            <x-text-input id="role_id" name="card" type="number" class="mt-1 block w-full" :value="old('role_id', $user->role_id)" required autocomplete="on" />
+            <x-text-input id="role_id" name="card" type="number" class="mt-1 block w-full" :value="old('role_id', $user->role_id)" autocomplete="on" />
             <x-input-error class="mt-2" :messages="$errors->get('role_id')" />
         </div>
 

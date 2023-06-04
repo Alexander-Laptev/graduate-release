@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Customer;
+use App\Models\Role;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
@@ -38,18 +40,36 @@ class RegisteredUserController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
+        $role = Role::query()->where('name', 'like', '%Пользователь%')->get(['id', 'name'])->first();
+
         $user = User::create([
             'name' => $request->name,
             'phone' => $request->phone,
             'login' => $request->login,
             'email' => $request->email,
+            'role_id' => $role->id,
             'password' => Hash::make($request->password),
+        ]);
+
+        $customer = Customer::query()->create([
+            'user_id' => $user->id,
+            'name' => $request->name,
+            'surname',
+            'patronymic',
+            'gender',
+            'birthday',
+            'picture',
+            'card',
         ]);
 
         event(new Registered($user));
 
         Auth::login($user);
 
-        return redirect(RouteServiceProvider::HOME);
+        if (!empty(session('city_id')) && !empty(session('saloon_id')) && !empty(session('service_id')) && !empty(session('employee_id')) &&
+                    !empty(session('date_id')) && !empty(session('start')))
+            return redirect()->route('record.order');
+        else
+            return redirect(RouteServiceProvider::HOME);
     }
 }

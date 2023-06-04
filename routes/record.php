@@ -13,16 +13,29 @@ Route::prefix('record')->group( function () {
 
     Route::post('city/', [RecordController::class, 'cityStore'])->name('record.city.store');
 
+//  Услуги
     Route::get('service/', [RecordController::class, 'service'])->name('record.service');
 
     Route::post('service/', [RecordController::class, 'serviceStore'])->name('record.service.store');
 
+//  Сотрудники
     Route::get('employee/', [RecordController::class, 'employee'])->name('record.employee');
 
     Route::post('employee/', [RecordController::class, 'employeeStore'])->name('record.employee.store');
 
+//  Салоны
     Route::get('saloon/', [RecordController::class, 'saloon'])->name('record.saloon');
 
     Route::post('saloon/', [RecordController::class, 'saloonStore'])->name('record.saloon.store');
+
+//  Дата и время
+    Route::get('date/', [RecordController::class, 'date'])->name('record.date');
+
+    Route::post('date/', [RecordController::class, 'dateStore'])->name('record.date.store');
+
+// Заказ
+    Route::get('order/', [RecordController::class, 'order'])->name('record.order');
+
+    Route::post('order/', [RecordController::class, 'orderStore'])->name('record.order.store');
 
 });

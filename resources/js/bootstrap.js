@@ -41,3 +41,12 @@ import {
 
 initTE({ Ripple });
 
+import { Dropdown } from 'flowbite';
+
+/*
+* $targetEl: required
+* $triggerEl: required
+* options: optional
+*/
+const dropdown = new Dropdown();
+

@@ -1,5 +1,17 @@
 <div class="flex">
     <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+        <x-nav-link :href="route('admin.dates')" :active="request()->routeIs('admin.dates')">
+            {{ __('Даты') }}
+        </x-nav-link>
+    </div>
+
+    <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+        <x-nav-link :href="route('admin.schedule_masters')" :active="request()->routeIs('admin.schedule_masters')">
+            {{ __('Расписание сотрудников') }}
+        </x-nav-link>
+    </div>
+
+    <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
         <x-nav-link :href="route('admin.employees')" :active="request()->routeIs('admin.employees')">
             {{ __('Сотрудники') }}
         </x-nav-link>

@@ -1,10 +1,12 @@
 <?php
 
+use App\Http\Controllers\Admin\DateController;
 use App\Http\Controllers\Admin\EmployeeController;
 use App\Http\Controllers\Admin\PostController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\SaloonController;
 use App\Http\Controllers\Admin\CityController;
+use App\Http\Controllers\Admin\Schedule_masterController;
 use App\Http\Controllers\Admin\Service_EmployeeController;
 use App\Http\Controllers\Admin\SubviewController;
 use App\Http\Controllers\Admin\ViewController;
@@ -12,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 use \App\Http\Controllers\Admin\AdminController;
 use \App\Http\Controllers\Admin\ServiceController;
 
-Route::prefix('admin')->group( function () {
+Route::middleware(['admin', 'auth'])->prefix('admin')->group( function () {
     Route::get('/', [AdminController::class, 'index'])->name('admin');
 
 //  Услуги
@@ -131,4 +133,30 @@ Route::prefix('admin')->group( function () {
     Route::put('service_employees/{service_employee}/edit', [Service_EmployeeController::class, 'edit'])->name('admin.service_employees.edit');
 
     Route::delete('service_employees/{service_employee}/destroy', [Service_EmployeeController::class, 'destroy'])->name('admin.service_employees.destroy');
+
+//  Даты
+    Route::get('dates/', [DateController::class, 'index'])->name('admin.dates');
+
+    Route::get('dates/create', [DateController::class, 'create'])->name('admin.dates.create');
+
+    Route::post('dates/', [DateController::class, 'store'])->name('admin.dates.store');
+
+    Route::get('dates/{date}', [DateController::class, 'show'])->name('admin.dates.show');
+
+    Route::put('dates/{date}/edit', [DateController::class, 'edit'])->name('admin.dates.edit');
+
+    Route::delete('dates/{date}/destroy', [DateController::class, 'destroy'])->name('admin.dates.destroy');
+
+//  Расписание мастеров
+    Route::get('schedule_masters/', [Schedule_masterController::class, 'index'])->name('admin.schedule_masters');
+
+    Route::get('schedule_masters/create', [Schedule_masterController::class, 'create'])->name('admin.schedule_masters.create');
+
+    Route::post('schedule_masters/', [Schedule_masterController::class, 'store'])->name('admin.schedule_masters.store');
+
+    Route::get('schedule_masters/{schedule_master}', [Schedule_masterController::class, 'show'])->name('admin.schedule_masters.show');
+
+    Route::put('schedule_masters/{schedule_master}/edit', [Schedule_masterController::class, 'edit'])->name('admin.schedule_masters.edit');
+
+    Route::delete('schedule_masters/{schedule_master}/destroy', [Schedule_masterController::class, 'destroy'])->name('admin.schedule_masters.destroy');
 });

@@ -13,8 +13,10 @@ class Record extends Model
         'customer_id',
         'saloon_id',
         'service_id',
-        'schedule_id',
-        'time',
+        'employee_id',
+        'date_id',
+        'start',
         'status',
     ];
+
 }

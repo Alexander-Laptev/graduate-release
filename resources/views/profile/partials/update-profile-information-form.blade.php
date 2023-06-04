@@ -89,12 +89,6 @@
             <x-input-error class="mt-2" :messages="$errors->get('card')" />
         </div>
 
-        <div>
-            <x-input-label for="role_id" :value="__('Роль')" />
-            <x-text-input id="role_id" name="card" type="number" class="mt-1 block w-full" :value="old('role_id', $user->role_id)" required autocomplete="on" />
-            <x-input-error class="mt-2" :messages="$errors->get('role_id')" />
-        </div>
-
         <div class="flex items-center gap-4">
             <x-primary-button>{{ __('Сохранить') }}</x-primary-button>
 

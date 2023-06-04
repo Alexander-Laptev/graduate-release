@@ -75,7 +75,7 @@
                             {{ $service->cost }}
                         </td>
                         <td class="px-6 py-4">
-                            {{ $service->time->fotmat('H:i') }}
+                            {{ $service->time->format('H:i') }}
                         </td>
                         <td class="px-6 py-4">
                             {{ $service->description }}

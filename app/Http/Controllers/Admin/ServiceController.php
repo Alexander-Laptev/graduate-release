@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Service;
 use App\Models\Subview;
 use App\Models\View;
+use Carbon\Carbon;
+use Carbon\Traits\Creator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -19,6 +21,12 @@ class ServiceController extends Controller
         $services = Service::query()->join('views', 'services.view_id', '=', 'views.id')
             ->join('subviews', 'services.subview_id', '=', 'subviews.id')
             ->get(['views.name as vname', 'subviews.name as sname', 'services.name', 'cost', 'time', 'description']);
+
+        $services = $services->map(function ($service) {
+            $service->time = new Carbon($service->time);
+            return $service;
+        });
+
         return view('admin.services.index', compact('services'));
     }
 

@@ -40,14 +40,23 @@ class RegisteredUserController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
-        //$role = Role::query()->where('name', 'like', '%Пользователь%')->get(['id', 'name'])->first();
+        $roles = Role::all();
+        if (empty($roles->toArray()))
+        {
+            Role::query()->create([
+               'Пользователь',
+               'Администратор',
+            ]);
+        }
+
+        $role = Role::query()->where('name', 'like', '%Пользователь%')->get(['id', 'name'])->first();
 
         $user = User::create([
             'name' => $request->name,
             'phone' => $request->phone,
             'login' => $request->login,
             'email' => $request->email,
-            //'role_id' => $role->id,
+            'role_id' => $role->id,
             'password' => Hash::make($request->password),
         ]);
 

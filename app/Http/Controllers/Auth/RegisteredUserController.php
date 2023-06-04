@@ -38,6 +38,7 @@ class RegisteredUserController extends Controller
             'login' => ['required', 'string', 'max:255', 'unique:'.User::class],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'role_id' => ['nullable']
         ]);
 
         $roles = Role::all();

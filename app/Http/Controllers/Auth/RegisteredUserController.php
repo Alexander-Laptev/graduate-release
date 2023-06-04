@@ -44,8 +44,10 @@ class RegisteredUserController extends Controller
         if (empty($roles->toArray()))
         {
             Role::query()->create([
-               'Пользователь',
-               'Администратор',
+                'name' => 'Пользователь',
+            ]);
+            Role::query()->create([
+                'name' => 'Администратор',
             ]);
         }
 

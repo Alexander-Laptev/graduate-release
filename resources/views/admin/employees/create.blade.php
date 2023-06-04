@@ -10,7 +10,8 @@
             @csrf
                 <div>
                     <x-input-label for="user_id" :value="__('Учетная запись')" />
-                    <x-select id="user_id" class="mt-1 w-full" name="user_id" :value="old('user_id')" required autofocus autocomplete="on">
+                    <x-select id="user_id" class="mt-1 w-full" name="user_id" autofocus autocomplete="off">
+                        <option></option>
                         @foreach($users as $user)
                             <option value="{{ $user->id }}">{{ $user->phone }}</option>
                         @endforeach
@@ -20,7 +21,7 @@
 
                 <div class="mt-4">
                     <x-input-label for="name" :value="__('Имя')" />
-                    <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" autocomplete="off"/>
+                    <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" autocomplete="on"/>
                     <x-input-error :messages="$errors->get('name')" class="mt-2" />
                 </div>
 

@@ -11,15 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('records', function (Blueprint $table) {
+        Schema::create('dates', function (Blueprint $table) {
             $table->id();
-            $table->integer('customer_id');
-            $table->integer('saloon_id');
-            $table->integer('service_id');
-            $table->integer('employee_id');
-            $table->integer('date_id');
-            $table->time('start');
-            $table->string('status');
+            $table->date('date');
             $table->timestamps();
         });
     }
@@ -29,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('records');
+        Schema::dropIfExists('dates');
     }
 };

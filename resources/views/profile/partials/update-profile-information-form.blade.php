@@ -1,11 +1,11 @@
 <section>
     <header>
         <h2 class="text-lg font-medium text-gray-900">
-            {{ __('Profile Information') }}
+            {{ __('Информация профиля') }}
         </h2>
 
         <p class="mt-1 text-sm text-gray-600">
-            {{ __("Update your account's profile information and email address.") }}
+            {{ __("Обновите информацию профиля своей учетной записи, адрес электронной почты и номер телефона.") }}
         </p>
     </header>
 
@@ -18,9 +18,33 @@
         @method('patch')
 
         <div>
-            <x-input-label for="name" :value="__('Name')" />
+            <x-input-label for="name" :value="__('Имя')" />
             <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" :value="old('name', $user->name)" required autofocus autocomplete="name" />
             <x-input-error class="mt-2" :messages="$errors->get('name')" />
+        </div>
+
+        <div>
+            <x-input-label for="surname" :value="__('Фамилия')" />
+            <x-text-input id="surname" name="surname" type="text" class="mt-1 block w-full" :value="old('surname', $customer->surname)" required autocomplete="on" />
+            <x-input-error class="mt-2" :messages="$errors->get('surname')" />
+        </div>
+
+        <div>
+            <x-input-label for="patronymic" :value="__('Отчество')" />
+            <x-text-input id="patronymic" name="patronymic" type="text" class="mt-1 block w-full" :value="old('patronymic', $customer->patronymic)" required autocomplete="on" />
+            <x-input-error class="mt-2" :messages="$errors->get('patronymic')" />
+        </div>
+
+        <div>
+            <x-input-label for="login" :value="__('Логин')" />
+            <x-text-input id="login" name="login" type="text" class="mt-1 block w-full" :value="old('login', $user->login)" required autocomplete="on" />
+            <x-input-error class="mt-2" :messages="$errors->get('login')" />
+        </div>
+
+        <div>
+            <x-input-label for="phone" :value="__('Номер телефона')" />
+            <x-text-input id="phone" name="name" type="text" class="mt-1 block w-full" :value="old('phone', $user->phone)" required autocomplete="on" />
+            <x-input-error class="mt-2" :messages="$errors->get('phone')" />
         </div>
 
         <div>
@@ -47,8 +71,26 @@
             @endif
         </div>
 
+        <div>
+            <x-input-label for="birthday" :value="__('День рождения')" />
+            <x-text-input id="birthday" name="birthday" type="date" class="mt-1 block w-full" :value="old('birthday', $customer->birthday)" required autocomplete="on" />
+            <x-input-error class="mt-2" :messages="$errors->get('birthday')" />
+        </div>
+
+        <div>
+            <x-input-label for="picture" :value="__('Фото')" />
+            <x-text-input id="picture" name="picture" type="file" class="mt-1 block w-full" :value="old('picture', $customer->picture)" required autocomplete="on" />
+            <x-input-error class="mt-2" :messages="$errors->get('picture')" />
+        </div>
+
+        <div>
+            <x-input-label for="card" :value="__('Карта')" />
+            <x-text-input id="card" name="card" type="text" disabled="true" class="mt-1 block w-full" :value="old('card', $customer->card)" required autocomplete="on" />
+            <x-input-error class="mt-2" :messages="$errors->get('card')" />
+        </div>
+
         <div class="flex items-center gap-4">
-            <x-primary-button>{{ __('Save') }}</x-primary-button>
+            <x-primary-button>{{ __('Сохранить') }}</x-primary-button>
 
             @if (session('status') === 'profile-updated')
                 <p
@@ -57,7 +99,7 @@
                     x-transition
                     x-init="setTimeout(() => show = false, 2000)"
                     class="text-sm text-gray-600"
-                >{{ __('Saved.') }}</p>
+                >{{ __('Сохранено.') }}</p>
             @endif
         </div>
     </form>

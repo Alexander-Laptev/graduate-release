@@ -27,9 +27,14 @@ class AuthenticatedSessionController extends Controller
     {
         $request->authenticate();
 
-        $request->session()->regenerate();
-
-        return redirect()->intended(RouteServiceProvider::HOME);
+        if (!empty(session('city_id')) &&!empty(session('saloon_id')) && !empty(session('service_id')) && !empty(session('employee_id')) &&
+            !empty(session('date_id')) && !empty(session('start')))
+            return redirect()->route('record.order');
+        else
+        {
+            $request->session()->regenerate();
+            return redirect()->intended(RouteServiceProvider::HOME);
+        }
     }
 
     /**

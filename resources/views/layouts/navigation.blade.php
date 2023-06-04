@@ -5,7 +5,7 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                    <a href="{{ route('home') }}">
+                    <a href="{{ route('home.index') }}">
                         <x-application-logo class="block h-20 w-auto fill-current text-gray-800" />
                     </a>
                 </div>
@@ -23,11 +23,14 @@
                     </x-nav-link>
                 </div>
 
-                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link :href="route('admin')" :active="request()->routeIs('admin')">
-                        {{ __('Админ панель') }}
-                    </x-nav-link>
-                </div>
+                @if(!empty(auth()->user()) && auth()->user()->is_admin == true)
+                    <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                        <x-nav-link :href="route('admin')" :active="request()->routeIs('admin')">
+                            {{ __('Админ панель') }}
+                        </x-nav-link>
+                    </div>
+                @endif
+
             </div>
         @if(!empty(auth()->user()->name))
             <!-- Settings Dropdown -->
@@ -102,7 +105,7 @@
             </x-responsive-nav-link>
         </div>
 
-        @if(!empty(auth()->user()->name))
+        @if(!empty(auth()->user()->id))
             <div class="pt-4 pb-1 border-t border-gray-200">
                 <div class="px-4">
                     <div class="font-medium text-base text-gray-800">{{ Auth::user()->name }}</div>

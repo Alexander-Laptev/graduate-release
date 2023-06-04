@@ -41,8 +41,12 @@ class EmployeeController extends Controller
      */
     public function store(Request $request)
     {
-        $pictureName = time().'.'.$request->picture->extension();
-        $request->picture->move(public_path('pictures'), $pictureName);
+        $pictureName = null;
+        if(!empty($request->picture))
+        {
+            $pictureName = time().'.'.$request->picture->extension();
+            $request->picture->move(public_path('pictures'), $pictureName);
+        }
 
         $employees = Employee::query()->create([
             'user_id' => $request->user_id,

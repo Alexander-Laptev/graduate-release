@@ -17,4 +17,8 @@ class Service extends Model
         'time',
         'description',
     ];
+
+    protected $casts = [
+        'time' => 'datetime',
+    ];
 }

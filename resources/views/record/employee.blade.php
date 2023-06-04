@@ -40,6 +40,10 @@
                                 @endforeach
                             </ul>
                         </div>
+                        @if(!empty($date))
+                            <label for="date_id"></label>
+                            <input id="date_id" type="text" class="invisible h-0 w-0" name="date_id" value="{{ $date->id }}">
+                        @endif
                     </form>
                 </div>
             </div>

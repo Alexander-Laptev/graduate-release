@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\City;
 use App\Models\Saloon;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use function Monolog\toArray;
 
@@ -17,6 +18,13 @@ class SaloonController extends Controller
     {
         $saloons = Saloon::query()->join('cities', 'saloons.city_id', '=', 'cities.id')
             ->get(['cities.name', 'street', 'home', 'open', 'close', 'number_phone']);
+
+        $saloons = $saloons->map(function ($saloon) {
+            $saloon->open = new Carbon($saloon->open);
+            $saloon->close = new Carbon( $saloon->close);
+            return $saloon;
+        });
+
         return view('admin.saloons.index', compact('saloons'));
     }
 

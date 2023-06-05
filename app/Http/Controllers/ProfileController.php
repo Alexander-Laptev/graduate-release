@@ -20,7 +20,7 @@ class ProfileController extends Controller
         $customer = Customer::query()
             ->where('user_id', '=', $request->user()->id)
             ->get(['surname', 'patronymic', 'gender', 'birthday', 'picture', 'card'])->first();
-        $user= $request->user();
+        $user = $request->user();
 
         return view('profile.edit', compact(['customer', 'user']));
     }

@@ -70,10 +70,10 @@
                             {{ $saloon->home }}
                         </td>
                         <td class="px-6 py-4">
-                            {{ $saloon->open }}
+                            {{ $saloon->open->format('H:i') }}
                         </td>
                         <td class="px-6 py-4">
-                            {{ $saloon->close }}
+                            {{ $saloon->close->format('H:i') }}
                         </td>
                         <td class="px-6 py-4">
                             {{ $saloon->number_phone }}

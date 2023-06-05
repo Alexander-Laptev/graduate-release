@@ -13,7 +13,7 @@
 
                     <form action="{{ route('record.saloon.store')}}" method="POST">
                         @csrf
-                            <div class="mt-4 grid grid-cols-3 gap-4 place-items-stretch">
+                            <div class="mt-4 grid lg:grid-cols-3 md:grid-cols-2 md:grid-cols-1 gap-4 place-items-stretch">
                                 @foreach($saloons as $saloon)
                                 <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
                                     <a type="button">

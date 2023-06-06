@@ -215,8 +215,19 @@
             var activeClasses = ["bg-gradient-to-r", "from-purple-500", "to-pink-500", "border-l-4","pl-4","border-gray-900"];
             var lastIdView = null;
             var lastIdSaloon = null;
-            showView('view', {{  $views->first()->id }})
-            showView('saloon', {{ $saloons->first()->id }})
+
+            @if(empty($views->toArray()))
+                {{ __('Отсутствуют услуги в данном городе') }}
+            @else
+                showView('view', {{  $views->first()->id }})
+            @endif
+
+            @if(empty($saloons->toArray()))
+                {{ __('Отсутствуют салоны в данном городе') }}
+            @else
+                showView('saloon', {{ $saloons->first()->id }})
+            @endif
+
 
             function showView(item, id) {
                 if(id == null)return

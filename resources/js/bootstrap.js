@@ -41,6 +41,9 @@ import {
 
 initTE({ Ripple });
 
+import { Select } from "tw-elements";
+initTE({ Select });
+
 import { Dropdown } from 'flowbite';
 
 /*

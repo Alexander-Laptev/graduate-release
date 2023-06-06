@@ -35,6 +35,8 @@ class RecordController extends Controller
 
     public function cityStore(Request $request)
     {
+        $date = Date::query()->where('date', '=', Carbon::now(4)->format('Y-m-d'))->get('id')->first();
+        $request->session()->put('date_id', $date->id);
         $request->session()->put('city_id', $request->city_id);
         return redirect()->route('home.index');
     }
@@ -57,7 +59,6 @@ class RecordController extends Controller
         $request->session()->put('saloon_id', $request->saloon_id);
         $request->session()->put('employee_id', null);
         $request->session()->put('service_id', null);
-        $request->session()->put('date_id', null);
         $request->session()->put('start', null);
         return redirect()->route('record');
     }
@@ -78,7 +79,8 @@ class RecordController extends Controller
                 ->whereIn('service__employees.employee_id', $employees)
                 ->distinct()
                 ->get(['services.id', 'view_id', 'subviews.name as sname', 'services.name', 'cost', 'time', 'services.description']);
-            $views = View::all('id', 'name');
+            $views = View::query()->whereIn('id', $services->pluck('view_id'))->distinct()->get(['id', 'name']);
+
             return view('record.service', compact(['services', 'views']));
         }
         else //Если выбран мастер, то выводится список всех услуг мастера
@@ -89,7 +91,8 @@ class RecordController extends Controller
                 ->join('subviews', 'services.subview_id', '=', 'subviews.id')
                 ->where('employee_id', '=', session('employee_id'))
                 ->get(['services.id', 'view_id', 'subviews.name as sname', 'services.name', 'cost', 'time', 'services.description']);
-            $views = View::all('id', 'name');
+            $views = View::query()->whereIn('id', $services->pluck('view_id'))->distinct()->get(['id', 'name']);
+
             return view('record.service', compact(['services', 'views']));
         }
     }
@@ -121,9 +124,7 @@ class RecordController extends Controller
                 ->where('saloon_id', '=', session('saloon_id'))
                 ->get(['employees.id as id', 'employees.name', 'surname', 'experience', 'posts.name as post', 'employees.picture']);
 
-            $date = Date::query()->where('date', '=', Carbon::now()->format('Y-m-d'))->get('id')->first();
-
-            return view('record.employee', compact(['employees', 'date']));
+            return view('record.employee', compact('employees'));
         }
         else  //Если выбрана услуга, то выводится список сотрудников конкретной услуги, кокретного салона
         {
@@ -135,16 +136,13 @@ class RecordController extends Controller
                 ->where('services_id', '=', session('service_id'))
                 ->get(['employees.id as id', 'employees.name', 'surname', 'experience', 'posts.name as post', 'employees.picture']);
 
-            $date = Date::query()->where('date', '=', Carbon::now()->format('Y-m-d'))->get('id')->first();
-
-            return view('record.employee', compact(['employees', 'date']));
+            return view('record.employee', compact('employees'));
         }
     }
 
     public function employeeStore(Request $request)
     {
         $request->session()->put('employee_id', $request->employee_id);
-        $request->session()->put('date_id', $request->date_id);
 
         if(!empty(session('service_id')))
         {
@@ -168,23 +166,28 @@ class RecordController extends Controller
         else
         {
             Carbon::setLocale('ru');
+
+            //Все даты от текущей в течении недели, в которые работает сотрудник
             $dates = Schedule_master::query()->join('dates', 'schedule_masters.date_id', '=', 'dates.id')
                 ->where('employee_id', '=', session('employee_id'))
-                ->where('dates.date', '>=', Carbon::now()->format('Y-m-d'))
+                ->where('dates.date', '>=', Carbon::now(4)->format('Y-m-d'))
                 ->where('dates.date', '<', Carbon::now()->addDays(7)->format('Y-m-d'))
-                ->get(['dates.id', 'dates.date']);
+                ->get(['dates.id as id', 'dates.date', 'schedule_masters.start as start', 'schedule_masters.end as end']);
 
+            //Приведение к Carbon
             $dates = $dates->map(function ($date) {
                 $date->date = new Carbon($date->date);
                 return $date;
             });
 
+            //Все записи в выбранный день выбранного соотрудника
             $records = Record::query()
                 ->join('services', 'service_id', '=', 'services.id')
                 ->where('date_id', '=', session('date_id'))
                 ->where('employee_id', '=', session('employee_id'))
                 ->get(['services.time as time', 'start', 'records.id']);
 
+            //Вычисление занятых промежутков времени, приведение к Carbon
             $timesClose = $records->map(function ($record) {
                 $record->time = new Carbon($record->time);
                 $record->start = new Carbon($record->start);
@@ -193,65 +196,58 @@ class RecordController extends Controller
                 $record->end->addHours($record->time->format('H'));
                 $record->start = $record->start->toTimeString();
                 $record->end = $record->end->toTimeString();
+                $record->start = Carbon::createFromTimeString( $record->start);
+                $record->end = Carbon::createFromTimeString( $record->end);
                 return $record;
-            });
+            })->sortBy('start');
 
-            $schedule_master = Schedule_master::query()
-                ->where('employee_id', '=', session('employee_id'))
-                ->where('date_id', '=', session('date_id'))
-                ->get(['schedule_masters.start as start', 'schedule_masters.end as end', 'id']);
-
-            $timesWork = $schedule_master->map(function ($time) {
+            //Вычисление расписания мастера, приведение к Carbon
+            $timesWork = $dates->map(function ($time) {
                 $time->start = new Carbon($time->start);
                 $time->end = new Carbon($time->end);
                 $time->start = $time->start->toTimeString();
                 $time->end = $time->end->toTimeString();
+                $time->start = Carbon::createFromTimeString( $time->start);
+                $time->end = Carbon::createFromTimeString( $time->end);
                 return $time;
-            });
+            })->where('id', session('date_id'))->first();
 
+            //Вычисление времени услуги
             $serviceTime = Service::query()->where('id', '=', session('service_id'))->get('time')->first();
             $serviceTime = $serviceTime->time->toTimeString();
-
-
-            //Приведение к одному дню из строки времени на всякий
-            $timesClose = $timesClose->map(function ($timeClose) {
-                $timeClose->start = Carbon::createFromTimeString( $timeClose->start);
-                $timeClose->end = Carbon::createFromTimeString( $timeClose->end);
-                return $timeClose;
-            })->sortBy('start');
-
-            $timesWork = $timesWork->map(function ($timeWork) {
-                $timeWork->start = Carbon::createFromTimeString( $timeWork->start);
-                $timeWork->end = Carbon::createFromTimeString( $timeWork->end);
-                return $timeWork;
-            })->first();
-
             $serviceTime = Carbon::createFromTimeString($serviceTime);
-
+            //dd($timesClose->toArray());
+            //Вычисление свободных промежутков времени
             $timesOpen = collect();
             $iteration = $timesClose->count();
             $timeWithService = collect();
-            for($i = 0; $i<=$iteration; $i++)
+            for($i = 0; $i <= $iteration; $i++)
             {
-                if($i == 0)
+                if(empty($timesClose->toArray()))
+                {
+                    $timesWork->end->subMinutes($serviceTime->format('i'));
+                    $timesWork->end->subHours($serviceTime->format('H'));
+                    if(empty($timesOpen->toArray()) && empty($timeWithService->toArray()))
+                    {
+                        $timesOpen->push(['timeStart' => $timesWork->start->toTimeString(), 'timeClose' => $timesWork->end->toTimeString()]);
+                    }
+                    elseif($timesWork->end > $timeWithService->end)
+                    {
+                        $timesOpen->push(['timeStart' => $timeWithService->end->toTimeString(), 'timeClose' => $timesWork->end->toTimeString()]);
+                    }
+                }
+                //Если первая итерация, то
+                elseif($i == 0)
                 {
                     $time = $timesClose->shift();
                     $time->start->subMinutes($serviceTime->format('i'));
                     $time->start->subHours($serviceTime->format('H'));
+                    //dd(session('date_id'));
                     if($timesWork->start < $time->start)
                     {
                         $timesOpen->push(['timeStart' => $timesWork->start->toTimeString(), 'timeClose' => $time->start->toTimeString()]);
                     }
                     $timeWithService = $time;
-                }
-                elseif ($i == $iteration)
-                {
-                    $timesWork->end->subMinutes($serviceTime->format('i'));
-                    $timesWork->end->subHours($serviceTime->format('H'));
-                    if($timeWithService->end < $timesWork->end)
-                    {
-                        $timesOpen->push(['timeStart' => $timeWithService->end->toTimeString(), 'timeClose' => $timesWork->end->toTimeString()]);
-                    }
                 }
                 else
                 {
@@ -265,7 +261,7 @@ class RecordController extends Controller
                     $timeWithService = $time;
                 }
             }
-
+            //dd($timesOpen->toArray());
             $timesOpen = $timesOpen->map(function ($timeOpen) {
                 $timeOpen['timeStart'] = Carbon::createFromTimeString( $timeOpen['timeStart']);
                 $timeOpen['timeClose'] = Carbon::createFromTimeString( $timeOpen['timeClose']);
@@ -273,7 +269,8 @@ class RecordController extends Controller
             })->sortBy('timeStart');
 
             $times = collect();
-            for($i = 0; $i<=$timesOpen->count(); $i++)
+            $iteration = $timesOpen->count();
+            for($i = 0; $i < $iteration; $i++)
             {
                 $time = $timesOpen->shift();
                 while($time['timeStart'] <= $time['timeClose'])
@@ -282,7 +279,9 @@ class RecordController extends Controller
                     $time['timeStart']->addMinutes(5);
                 }
             }
+            //dd($times->toArray());
             $hours = $times->unique('hour');
+            //dd($hours->toArray());
             $oneMinutes = $times->where('minute', '<', '15');
             $twoMinutes = $times->where('minute', '>=', '15')->where('minute', '<', '30');
             $threeMinutes = $times->where('minute', '>=', '30')->where('minute', '<', '45');

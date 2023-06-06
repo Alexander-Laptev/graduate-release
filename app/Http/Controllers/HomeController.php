@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Employee;
+use App\Models\Saloon;
 use App\Models\Service;
 use App\Models\Service_Employee;
 use App\Models\Subview;
@@ -17,12 +18,14 @@ class HomeController extends Controller
             return to_route('record.city');
         else
         {
+            //Поиск всех сотрудников города
             $employees = Employee::query()
                 ->join('saloons', 'employees.saloon_id', '=', 'saloons.id')
                 ->join('cities', 'saloons.city_id', '=', 'cities.id')
                 ->where('cities.id', '=', session('city_id'))
                 ->get('employees.id');
 
+            //Поиск всех услуг всех сотрудников города
             $services = Service_Employee::query()
                 ->join('services', 'service__employees.services_id', '=', 'services.id')
                 ->join('views', 'services.view_id', '=', 'views.id')
@@ -32,6 +35,11 @@ class HomeController extends Controller
 
             $views = View::query()->whereIn('id', $services->pluck('view_id'))->distinct()->get(['id', 'name']);
             $subviews = $services;
+
+            //Поиск всех салонов города
+            $saloons = Saloon::query()->join('cities', 'saloons.city_id', '=', 'cities.id')
+                ->where('city_id', '=', session('city_id'))
+                ->get(['saloons.id','cities.name as city', 'street', 'home', 'open', 'close', 'number_phone', 'picture']);
 //
 //            $subviews = Subview::query()->whereIn('id', $services->pluck('subview_id'))->distinct()->get(['id', 'name']);
 //
@@ -46,7 +54,7 @@ class HomeController extends Controller
             //dd($employees->toArray());
             //dd($services->toArray());
             //dd($subviews->toArray());
-            return view('home.index', compact(['views', 'services', 'subviews']));
+            return view('home.index', compact(['views', 'services', 'subviews', 'saloons']));
         }
     }
 }

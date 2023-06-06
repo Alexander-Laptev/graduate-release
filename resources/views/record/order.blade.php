@@ -10,7 +10,7 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 text-center">
                     {{ __("Детали заказа") }}
-                    <p class="text-start">
+                    <p class="p-2 text-start border-s-2 border-purple-400">
                         {{ $date->format('d.m.Y').' '.__('в').' '.$start }}<br/>
                         {{ __('Адрес').': '.__('г.').' '.$saloon->city.__('ул.').' '.$saloon->street.', '.$saloon->home }}<br/>
                         {{ __('Номер телефона').': '.$saloon->number_phone }}<br/>

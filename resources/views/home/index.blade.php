@@ -216,15 +216,11 @@
             var lastIdView = null;
             var lastIdSaloon = null;
 
-            @if(empty($views->toArray()))
-                {{ __('Отсутствуют услуги в данном городе') }}
-            @else
+            @if(!empty($views->toArray()))
                 showView('view', {{  $views->first()->id }})
             @endif
 
-            @if(empty($saloons->toArray()))
-                {{ __('Отсутствуют салоны в данном городе') }}
-            @else
+            @if(!empty($saloons->toArray()))
                 showView('saloon', {{ $saloons->first()->id }})
             @endif
 

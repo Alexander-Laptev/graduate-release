@@ -58,12 +58,12 @@
                                 <div id="view-view-{{ $view->id }}" class="hidden">
                                     @foreach($subviews->where('view_id', '=' , $view->id)->unique('subview_id') as $subview)
                                         {{ $subview->sname }}
-                                        <div class="m-4 mt-2 pt-2 border-t-2 border-black grid grid-rows-1 grid-cols-2 place-content-between">
+                                        <div class="m-4 mt-2 pt-2 border-t-2 border-black grid grid-rows-1 grid-cols-3 place-content-between">
                                             @foreach($services->where('view_id', '=' , $view->id)->where('subview_id', '=' , $subview->subview_id)->unique('id') as $service)
-                                                <div>
+                                                <div class="col-span-2">
                                                 {{ $service->name }}
                                                 </div>
-                                                <div class="text-end">
+                                                <div class="text-start">
                                                     {{ __('Цена: ').$service->cost.' руб.' }}
                                                 </div>
                                             @endforeach

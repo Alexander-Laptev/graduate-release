@@ -19,16 +19,16 @@
                                     <li class="py-3 sm:py-4">
                                         <div class="flex items-center space-x-4">
                                             <div class="flex-shrink-0">
-                                                <img class="w-8 h-8 rounded-full" src="{{ asset('/pictures').'/'.$employee->picture}}" alt="">
+                                                <img class="w-16 h-16 rounded-full" src="{{ asset('/pictures').'/'.$employee->picture}}" alt="">
                                             </div>
-                                            <div class="flex-1 min-w-0">
-                                                <button value="{{ $employee->id }}" name="employee_id" id="employee_id" type="submit">
-                                                    <p class="ps-8 font-medium text-gray-900 truncate dark:text-white">
+                                            <div class="ps-8 flex-1 min-w-0">
+                                                <button value="{{ $employee->id }}" name="employee_id" id="employee_id" type="submit" class="border-b-2 border-purple-400">
+                                                    <p class="font-medium text-gray-900 truncate dark:text-white ">
                                                         {{ $employee->surname.' '.$employee->name }}
                                                     </p>
                                                 </button>
 
-                                                <p class="ps-8 text-sm text-gray-500 truncate dark:text-gray-400">
+                                                <p class="text-sm text-gray-500 truncate dark:text-gray-400">
                                                     {{ $employee->post}}
                                                 </p>
                                             </div>
@@ -40,10 +40,6 @@
                                 @endforeach
                             </ul>
                         </div>
-                        @if(!empty($date))
-                            <label for="date_id"></label>
-                            <input id="date_id" type="text" class="invisible h-0 w-0" name="date_id" value="{{ $date->id }}">
-                        @endif
                     </form>
                 </div>
             </div>

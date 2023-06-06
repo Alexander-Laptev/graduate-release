@@ -36,7 +36,7 @@
                                         <div id="collapse{{ $view->id }}" class="!visible hidden" data-te-collapse-item aria-labelledby="heading{{ $view->id }}">
                                             <div class="flex flex-col justify-center rounded-md">
                                                 @foreach($services->where('view_id', '=' , $view->id) as $service)
-                                                    <button type="submit" value="{{ $service->id }}" name="service_id" id="service_id" class="-mt-px py-3 px-4 inline-flex justify-center items-center gap-2 font-medium bg-white text-gray-700 align-middle hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-2 focus:ring-blue-600 transition-all text-sm dark:bg-gray-800 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400">
+                                                    <button type="submit" value="{{ $service->id }}" name="service_id" id="service_id" class="-mt-px py-3 px-4 inline-flex justify-center items-center gap-2 bg-white text-gray-700 align-middle hover:bg-gradient-to-r from-purple-500 to-pink-500 focus:z-10 focus:outline-none focus:ring-2 focus:ring-purple-600 transition-all text-sm dark:bg-gray-800 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400">
                                                         {{ $service->name }}
                                                     </button>
                                                 @endforeach
@@ -65,7 +65,7 @@
                                         <div id="collapse{{ $view->id }}" class="!visible hidden" data-te-collapse-item aria-labelledby="heading{{ $view->id }}">
                                             <div class="flex flex-col justify-center rounded-md">
                                                 @foreach($services->where('view_id', '=' , $view->id) as $service)
-                                                    <button type="submit" value="{{ $service->id }}" name="service_id" id="service_id" class="-mt-px py-3 px-4 inline-flex justify-center items-center gap-2 font-medium bg-white text-gray-700 align-middle hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-2 focus:ring-blue-600 transition-all text-sm dark:bg-gray-800 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400">
+                                                    <button type="submit" value="{{ $service->id }}" name="service_id" id="service_id" class="-mt-px py-3 px-4 inline-flex justify-center items-center gap-2 bg-white text-gray-700 align-middle hover:bg-gradient-to-r from-purple-500 to-pink-500 focus:z-10 focus:outline-none focus:ring-2 focus:ring-purple-600 transition-all text-sm dark:bg-gray-800 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400">
                                                         {{ $service->name }}
                                                     </button>
                                                 @endforeach
@@ -93,7 +93,7 @@
                                         <div id="collapse{{ $view->id }}" class="!visible hidden" data-te-collapse-item aria-labelledby="heading{{ $view->id }}">
                                             <div class="flex flex-col justify-center rounded-md">
                                                 @foreach($services->where('view_id', '=' , $view->id) as $service)
-                                                    <button type="submit" value="{{ $service->id }}" name="service_id" id="service_id" class="-mt-px py-3 px-4 inline-flex justify-center items-center gap-2 font-medium bg-white text-gray-700 align-middle hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-2 focus:ring-blue-600 transition-all text-sm dark:bg-gray-800 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400">
+                                                    <button type="submit" value="{{ $service->id }}" name="service_id" id="service_id" class="-mt-px py-3 px-4 inline-flex justify-center items-center gap-2 bg-white text-gray-700 align-middle hover:bg-gradient-to-r from-purple-500 to-pink-500 focus:z-10 focus:outline-none focus:ring-2 focus:ring-purple-600 transition-all text-sm dark:bg-gray-800 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400">
                                                         {{ $service->name }}
                                                     </button>
                                                 @endforeach

@@ -16,7 +16,7 @@
 
                 <div class="mt-4">
                     <x-input-label for="view_id" :value="__('Тип')" />
-                    <x-select id="view_id" class="mt-1 w-full" name="view_id" :value="old('view_id')" required autofocus autocomplete="on">
+                    <x-select id="view_id" class="data-te-select-init mt-1 w-full" name="view_id" :value="old('view_id')" required autofocus autocomplete="on">
                         @foreach($views as $view)
                             <option value="{{ $view->id }}">{{ $view->name }}</option>
                         @endforeach

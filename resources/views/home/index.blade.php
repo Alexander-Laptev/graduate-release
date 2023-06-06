@@ -93,7 +93,7 @@
                         </div>
                         <div class="w-full h-full sm:flex md:block">
                             @foreach($saloons as $saloon)
-                                <button id="button-saloon-{{ $saloon->id }}" onclick="showView('saloon', {{ $saloon->id }})" class="w-full flex justify-between items-center px-5 py-2 hover:bg-gradient-to-r from-purple-500 to-pink-500 cursor-pointer focus:outline-none">
+                                <button id="button-saloon-{{ $saloon->id }}" onclick="showView('saloon', {{ $saloon->id }})" class="w-full flex justify-between items-center text-start px-5 py-2 hover:bg-gradient-to-r from-purple-500 to-pink-500 cursor-pointer focus:outline-none">
                                     <span><i class="w-6"></i>{{ 'ул. '.$saloon->street.' д.'.$saloon->home }}</span>
                                 </button>
                             @endforeach

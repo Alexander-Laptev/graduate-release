@@ -355,6 +355,6 @@ class RecordController extends Controller
             'status' => 'В ожидании',
         ]);
 
-        return redirect()->route('profile.edit');
+        return redirect()->route('profile.orders');
     }
 }

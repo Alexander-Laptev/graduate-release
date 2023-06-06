@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\Profile\OrderController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -21,10 +22,20 @@ Route::get('/', [HomeController::class, 'index'])->name('home.index');
 //    return view('record');
 //})->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+Route::middleware('auth')->prefix('profile')->group(function () {
+
+    //Профиль
+    Route::get('/', [ProfileController::class, 'edit'])->name('profile.edit');
+
+    Route::patch('/', [ProfileController::class, 'update'])->name('profile.update');
+
+    Route::delete('/', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    //Заказы пользователя
+    Route::get('/orders', [OrderController::class, 'index'])->name('profile.orders');
+
+    Route::delete('orders/{order}/destroy', [OrderController::class, 'destroy'])->name('profile.orders.destroy');
+
 });
 
 require __DIR__.'/auth.php';

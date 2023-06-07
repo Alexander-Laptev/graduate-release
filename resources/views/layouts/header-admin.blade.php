@@ -1,5 +1,11 @@
 <div class="flex grid grid-cols-6 grid-flow-row">
     <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+        <x-nav-link :href="route('admin.orders')" :active="request()->routeIs('admin.orders')">
+            {{ __('Записи') }}
+        </x-nav-link>
+    </div>
+
+    <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
         <x-nav-link :href="route('admin.dates')" :active="request()->routeIs('admin.dates')">
             {{ __('Даты') }}
         </x-nav-link>

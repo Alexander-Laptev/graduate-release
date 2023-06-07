@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\DateController;
 use App\Http\Controllers\Admin\EmployeeController;
+use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\PostController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\SaloonController;
@@ -159,4 +160,17 @@ Route::middleware(['admin', 'auth'])->prefix('admin')->group( function () {
     Route::put('schedule_masters/{schedule_master}/edit', [Schedule_masterController::class, 'edit'])->name('admin.schedule_masters.edit');
 
     Route::delete('schedule_masters/{schedule_master}/destroy', [Schedule_masterController::class, 'destroy'])->name('admin.schedule_masters.destroy');
+
+//  Заказы
+    Route::get('orders/', [OrderController::class, 'index'])->name('admin.orders');
+
+    Route::get('orders/create', [OrderController::class, 'create'])->name('admin.orders.create');
+
+    Route::post('orders/', [OrderController::class, 'store'])->name('admin.orders.store');
+
+    Route::get('orders/{order}', [OrderController::class, 'show'])->name('admin.orders.show');
+
+    Route::put('orders/{order}/edit', [OrderController::class, 'edit'])->name('admin.orders.edit');
+
+    Route::delete('orders/{order}/destroy', [OrderController::class, 'destroy'])->name('admin.orders.destroy');
 });

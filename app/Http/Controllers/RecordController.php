@@ -347,6 +347,7 @@ class RecordController extends Controller
     public function orderStore(Request $request)
     {
         $customer = Customer::query()->where('user_id', '=',auth()->user()->id)->get('id');
+        dd($customer);
         $records = Record::query()->create([
             'customer_id' => $customer->id,
             'saloon_id' => session('saloon_id'),

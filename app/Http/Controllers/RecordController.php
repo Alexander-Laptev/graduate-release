@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\City;
+use App\Models\Customer;
 use App\Models\Date;
 use App\Models\Employee;
 use App\Models\Record;
@@ -345,8 +346,9 @@ class RecordController extends Controller
 
     public function orderStore(Request $request)
     {
+        $customer = Customer::query()->where('user_id', '=',auth()->user()->id)->get('id');
         $records = Record::query()->create([
-            'customer_id' => 1,
+            'customer_id' => $customer->id,
             'saloon_id' => session('saloon_id'),
             'service_id'  => session('service_id'),
             'employee_id' => session('employee_id'),

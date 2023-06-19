@@ -168,10 +168,12 @@ class RecordController extends Controller
         {
             Carbon::setLocale('ru');
 
+            $city = City::query()->where('id', '=', session('city_id'))->get('timezone')->first();
+
             //Все даты от текущей в течении недели, в которые работает сотрудник
             $dates = Schedule_master::query()->join('dates', 'schedule_masters.date_id', '=', 'dates.id')
                 ->where('employee_id', '=', session('employee_id'))
-                ->where('dates.date', '>=', Carbon::now(4)->format('Y-m-d'))
+                ->where('dates.date', '>=', Carbon::now($city->timezone)->format('Y-m-d'))
                 ->where('dates.date', '<', Carbon::now()->addDays(7)->format('Y-m-d'))
                 ->get(['dates.id as id', 'dates.date', 'schedule_masters.start as start', 'schedule_masters.end as end']);
 
@@ -217,7 +219,8 @@ class RecordController extends Controller
             $serviceTime = Service::query()->where('id', '=', session('service_id'))->get('time')->first();
             $serviceTime = $serviceTime->time->toTimeString();
             $serviceTime = Carbon::createFromTimeString($serviceTime);
-            //dd($timesClose->toArray());
+
+
             //Вычисление свободных промежутков времени
             $timesOpen = collect();
             $iteration = $timesClose->count();
@@ -232,7 +235,7 @@ class RecordController extends Controller
                     {
                         $timesOpen->push(['timeStart' => $timesWork->start->toTimeString(), 'timeClose' => $timesWork->end->toTimeString()]);
                     }
-                    elseif($timesWork->end > $timeWithService->end)
+                    elseif($timesWork->end >= $timeWithService->end)
                     {
                         $timesOpen->push(['timeStart' => $timeWithService->end->toTimeString(), 'timeClose' => $timesWork->end->toTimeString()]);
                     }
@@ -244,7 +247,7 @@ class RecordController extends Controller
                     $time->start->subMinutes($serviceTime->format('i'));
                     $time->start->subHours($serviceTime->format('H'));
                     //dd(session('date_id'));
-                    if($timesWork->start < $time->start)
+                    if($timesWork->start <= $time->start)
                     {
                         $timesOpen->push(['timeStart' => $timesWork->start->toTimeString(), 'timeClose' => $time->start->toTimeString()]);
                     }
@@ -255,7 +258,7 @@ class RecordController extends Controller
                     $time = $timesClose->shift();
                     $time->start->subMinutes($serviceTime->format('i'));
                     $time->start->subHours($serviceTime->format('H'));
-                    if($timeWithService->end < $time->start)
+                    if($timeWithService->end <= $time->start)
                     {
                         $timesOpen->push(['timeStart' => $timeWithService->end->toTimeString(), 'timeClose' => $time->start->toTimeString()]);
                     }
@@ -276,7 +279,8 @@ class RecordController extends Controller
                 $time = $timesOpen->shift();
                 while($time['timeStart'] <= $time['timeClose'])
                 {
-                    $times->push(['id' => $i, 'hour' =>  $time['timeStart']->format('H'), 'minute' => $time['timeStart']->format('i')]);
+                    if($time['timeStart']->format('H:i:s') >= Carbon::now($city->timezone)->format('H:i:s'))
+                        $times->push(['id' => $i, 'hour' =>  $time['timeStart']->format('H'), 'minute' => $time['timeStart']->format('i')]);
                     $time['timeStart']->addMinutes(5);
                 }
             }
@@ -322,6 +326,8 @@ class RecordController extends Controller
             redirect()->route('record.date');
         elseif (empty(session('start')))
             redirect()->route('record.date');
+        elseif (empty(session('customer_id')) && !empty(auth()->user()) && auth()->user()->is_admin == true)
+            redirect()->route('record');
         else {
             $saloon = Saloon::query()
                 ->join('cities', 'city_id', '=', 'cities.id')
@@ -346,9 +352,15 @@ class RecordController extends Controller
 
     public function orderStore(Request $request)
     {
+
         $customer = Customer::query()->where('user_id', '=',auth()->user()->id)->get('id')->first();
+        if(!empty($customer->toArray()))
+        {
+            $request->session()->put('customer_id', $customer->id);
+        }
+
         $records = Record::query()->create([
-            'customer_id' => $customer->id,
+            'customer_id' => session('customer_id'),
             'saloon_id' => session('saloon_id'),
             'service_id'  => session('service_id'),
             'employee_id' => session('employee_id'),
@@ -357,6 +369,43 @@ class RecordController extends Controller
             'status' => 'В ожидании',
         ]);
 
-        return redirect()->route('profile.orders');
+        $request->session()->put('employee_id', null);
+        $request->session()->put('service_id', null);
+        $request->session()->put('start', null);
+        $request->session()->put('customer_id', null);
+
+        if(!empty(auth()->user()) && auth()->user()->is_admin == true)
+            return redirect()->route('admin.orders');
+        else
+            return redirect()->route('profile.orders');
+    }
+
+    public function customer(Request $request)
+    {
+        return view('record.customer');
+    }
+
+    public function customerStore(Request $request)
+    {
+        $customer = Customer::query()
+            ->where('number_phone', '=', $request->number_phone)
+            ->get('id')
+            ->first();
+
+        if(empty($customer))
+        {
+            $newcustomer = Customer::query()->create([
+                'name' => $request->name,
+                'number_phone' => $request->number_phone,
+            ]);
+
+            $request->session()->put('customer_id', $newcustomer->id);
+        }
+        else
+        {
+            $request->session()->put('customer_id', $customer->id);
+        }
+
+        return redirect()->route('record');
     }
 }

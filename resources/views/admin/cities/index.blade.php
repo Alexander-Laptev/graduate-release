@@ -31,6 +31,12 @@
                     </th>
 
                     <th scope="col" class="px-6 py-3">
+                        <div class="flex items-center">
+                            {{ __('Часовой пояс') }}
+                        </div>
+                    </th>
+
+                    <th scope="col" class="px-6 py-3">
                         <span class="sr-only">{{ __('Редактировать') }}</span>
                     </th>
 
@@ -47,6 +53,9 @@
                             </td>
                             <td class="px-6 py-4">
                                 {{ $city->domain_name }}
+                            </td>
+                            <td class="px-6 py-4">
+                                {{ $city->timezone }}
                             </td>
                             <td class="px-6 py-4 text-right">
                                 <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Редактировать</a>

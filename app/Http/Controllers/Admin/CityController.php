@@ -10,7 +10,7 @@ class CityController extends Controller
 {
     public function index()
     {
-        $cities = City::all('name', 'domain_name');
+        $cities = City::all('name', 'domain_name', 'timezone');
         return view('admin.cities.index', compact('cities'));
     }
 
@@ -24,6 +24,7 @@ class CityController extends Controller
         $cities = City::query()->create([
             'name' => $request->name,
             'domain_name' => $request->domain_name,
+            'timezone' => $request->timezone,
         ]);
 
         return redirect()->route('admin.cities');

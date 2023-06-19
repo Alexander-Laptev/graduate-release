@@ -38,4 +38,9 @@ Route::prefix('record')->group( function () {
 
     Route::post('order/', [RecordController::class, 'orderStore'])->name('record.order.store');
 
+// Клиент
+    Route::get('customer/', [RecordController::class, 'customer'])->name('record.customer')->middleware('admin');
+
+    Route::post('customer/', [RecordController::class, 'customerStore'])->name('record.customer.store')->middleware('admin');
+
 });

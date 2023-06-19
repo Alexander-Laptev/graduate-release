@@ -34,7 +34,7 @@ Route::middleware('auth')->prefix('profile')->group(function () {
     //Заказы пользователя
     Route::get('/orders', [OrderController::class, 'index'])->name('profile.orders');
 
-    Route::delete('orders/{order}/destroy', [OrderController::class, 'destroy'])->name('profile.orders.destroy');
+    Route::delete('/orders/{id}/destroy', [OrderController::class, 'destroy'])->name('profile.orders.destroy');
 
 });
 

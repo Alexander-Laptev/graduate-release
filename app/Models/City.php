@@ -12,5 +12,6 @@ class City extends Model
     protected $fillable = [
         'name',
         'domain_name',
+        'timezone',
     ];
 }

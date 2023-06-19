@@ -18,6 +18,7 @@ class Customer extends Model
         'birthday',
         'picture',
         'card',
+        'number_phone',
     ];
 
 }

@@ -41,6 +41,8 @@ class OrderController extends Controller
 
     public function destroy(string $id)
     {
-        //
+        Record::query()->find($id)->delete();
+
+        return redirect()->back();
     }
 }

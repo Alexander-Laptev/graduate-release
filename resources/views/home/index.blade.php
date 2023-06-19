@@ -163,7 +163,7 @@
                                 <a href="{{ route('profile.edit') }}" class="hover:underline ">{{ __('Профиль') }}</a>
                             </li>
                             <li class="mb-4">
-                                <a href="{{ route('profile.edit') }}" class="hover:underline">{{ __('Мои заказы') }}</a>
+                                <a href="{{ route('profile.orders') }}" class="hover:underline">{{ __('Мои заказы') }}</a>
                             </li>
                         </ul>
                     </div>

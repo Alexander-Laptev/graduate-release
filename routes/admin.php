@@ -164,13 +164,11 @@ Route::middleware(['admin', 'auth'])->prefix('admin')->group( function () {
 //  Заказы
     Route::get('orders/', [OrderController::class, 'index'])->name('admin.orders');
 
-    Route::get('orders/create', [OrderController::class, 'create'])->name('admin.orders.create');
-
-    Route::post('orders/', [OrderController::class, 'store'])->name('admin.orders.store');
-
     Route::get('orders/{order}', [OrderController::class, 'show'])->name('admin.orders.show');
 
     Route::put('orders/{order}/edit', [OrderController::class, 'edit'])->name('admin.orders.edit');
+
+    Route::put('orders/{order}/status', [OrderController::class, 'status'])->name('admin.orders.status');
 
     Route::delete('orders/{order}/destroy', [OrderController::class, 'destroy'])->name('admin.orders.destroy');
 });

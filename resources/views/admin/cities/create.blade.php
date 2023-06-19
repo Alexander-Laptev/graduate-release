@@ -20,6 +20,12 @@
                     <x-input-error :messages="$errors->get('domain_name')" class="mt-2" />
                 </div>
 
+                <div class="mt-4">
+                    <x-input-label for="timezone" :value="__('Часовой пояс')" />
+                    <x-text-input id="timezone" class="block mt-1 w-full" type="number" name="timezone" :value="old('timezone')" autocomplete="on" />
+                    <x-input-error :messages="$errors->get('timezone')" class="mt-2" />
+                </div>
+
                 <div class="flex items-center justify-center mt-4">
                     <x-primary-button class="my-5">
                         {{ __('Добавить') }}

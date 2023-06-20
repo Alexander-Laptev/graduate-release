@@ -25,7 +25,7 @@ class OrderController extends Controller
             ->orderBy('status')
             ->get(['saloons.street as street', 'saloons.home as home', 'cities.name as city', 'services.name as service',
                 'employees.name as employee_name', 'employees.surname as employee_surname', 'employees.patronymic as employee_patronymic',
-                'dates.date as date', 'records.id as id', 'records.status as status', 'records.start as start', 'users.phone as phone', 'users.name as user']);
+                'dates.date as date', 'records.id as id', 'records.status as status', 'records.start as start', 'customers.number_phone as phone', 'customers.name as user']);
 
         $records = $records->map( function ($record) {
             $record->date = new Carbon($record->date);

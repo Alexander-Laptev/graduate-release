@@ -14,7 +14,6 @@ class OrderController extends Controller
     {
         $records = Record::query()
             ->join('customers', 'records.customer_id', '=', 'customers.id')
-            ->join('users', 'customers.user_id', '=', 'users.id')
             ->join('saloons', 'records.saloon_id', '=', 'saloons.id')
             ->join('cities', 'saloons.city_id', '=', 'cities.id')
             ->join('services', 'records.service_id', '=', 'services.id')

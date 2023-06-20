@@ -362,11 +362,13 @@ class RecordController extends Controller
 
     public function orderStore(Request $request)
     {
-
-        $customer = Customer::query()->where('user_id', '=',auth()->user()->id)->get('id')->first();
-        if(!empty($customer->toArray()))
+        if(!empty(auth()->user()) && auth()->user()->is_admin != true)
         {
-            $request->session()->put('customer_id', $customer->id);
+            $customer = Customer::query()->where('user_id', '=',auth()->user()->id)->get('id')->first();
+            if(!empty($customer->toArray()))
+            {
+                $request->session()->put('customer_id', $customer->id);
+            }
         }
 
         $records = Record::query()->create([

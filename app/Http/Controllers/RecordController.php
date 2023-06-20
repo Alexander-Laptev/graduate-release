@@ -284,8 +284,7 @@ class RecordController extends Controller
                 while($time['timeStart'] <= $time['timeClose'])
                 {
                     $start = $time['timeStart'];
-                    $now = Carbon::now($city->timezone)->toTimeString();
-                    $now = Carbon::createFromTimeString( $now );
+                    $now = Carbon::now($city->timezone);
                     if($start >= $now)
                         $times->push(['id' => $i, 'hour' =>  $time['timeStart']->format('H'), 'minute' => $time['timeStart']->format('i')]);
                     $time['timeStart']->addMinutes(5);

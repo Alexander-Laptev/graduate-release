@@ -276,6 +276,8 @@ class RecordController extends Controller
                 return $timeOpen;
             })->sortBy('timeStart');
 
+            $date = Date::query()->where('date', '=', $now)->get('id')->first();
+
             $times = collect();
             $iteration = $timesOpen->count();
             for($i = 0; $i < $iteration; $i++)
@@ -285,7 +287,9 @@ class RecordController extends Controller
                 {
                     $start = $time['timeStart'];
                     $now = Carbon::now($city->timezone);
-                    if($start >= $now)
+                    $s = Carbon::create($date->year, $date->month, $date->day, $start->hour, $start->minute, $start->second);
+                    $t = Carbon::create($now->year, $now->month, $now->day, $now->hour, $now->minute, $now->second);
+                    if($s >= $t)
                         $times->push(['id' => $i, 'hour' =>  $time['timeStart']->format('H'), 'minute' => $time['timeStart']->format('i')]);
                     $time['timeStart']->addMinutes(5);
                 }

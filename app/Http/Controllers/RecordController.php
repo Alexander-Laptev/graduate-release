@@ -175,7 +175,8 @@ class RecordController extends Controller
                 ->where('employee_id', '=', session('employee_id'))
                 ->where('dates.date', '>=', Carbon::now($city->timezone)->format('Y-m-d'))
                 ->where('dates.date', '<', Carbon::now()->addDays(7)->format('Y-m-d'))
-                ->get(['dates.id as id', 'dates.date', 'schedule_masters.start as start', 'schedule_masters.end as end']);
+                ->get(['dates.id as id', 'dates.date', 'schedule_masters.start as start', 'schedule_masters.end as end'])
+                ->sortBy('date');
 
             //Приведение к Carbon
             $dates = $dates->map(function ($date) {

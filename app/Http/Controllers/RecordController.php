@@ -170,7 +170,7 @@ class RecordController extends Controller
 
             $city = City::query()->where('id', '=', session('city_id'))->get('timezone')->first();
 
-            $now = Carbon::today('+'.$city->timezone);
+            $now = Carbon::today('+4');
             $week = $now->addDays(7);
 
             //Все даты от текущей в течении недели, в которые работает сотрудник
@@ -286,7 +286,7 @@ class RecordController extends Controller
                 while($time['timeStart'] <= $time['timeClose'])
                 {
                     $start = $time['timeStart'];
-                    $now = Carbon::now('+'.$city->timezone);
+                    $now = Carbon::now('+4');
                     $s = Carbon::create($d->date->year, $d->date->month, $d->date->day, $start->hour, $start->minute, $start->second);
                     $t = Carbon::create($now->year, $now->month, $now->day, $now->hour, $now->minute, $now->second);
                     if($s >= $t)

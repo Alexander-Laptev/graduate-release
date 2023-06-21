@@ -162,11 +162,11 @@ class RecordController extends Controller
         if(empty(session('city_id')))
             return redirect()->route('record.city');
         elseif (empty(session('saloon_id')))
-            redirect()->route('record.saloon');
+            return redirect()->route('record.saloon');
         elseif (empty(session('service_id')))
-            redirect()->route('record.service');
+            return redirect()->route('record.service');
         elseif (empty(session('employee_id')))
-            redirect()->route('record.employee');
+            return redirect()->route('record.employee');
         else
         {
             Carbon::setLocale('ru');
@@ -326,17 +326,17 @@ class RecordController extends Controller
         if(empty(session('city_id')))
             return redirect()->route('record.city');
         elseif (empty(session('saloon_id')))
-            redirect()->route('record.saloon');
+            return redirect()->route('record.saloon');
         elseif (empty(session('service_id')))
-            redirect()->route('record.service');
+            return redirect()->route('record.service');
         elseif (empty(session('employee_id')))
-            redirect()->route('record.employee');
+            return redirect()->route('record.employee');
         elseif (empty(session('date_id')))
-            redirect()->route('record.date');
+            return redirect()->route('record.date');
         elseif (empty(session('start')))
-            redirect()->route('record.date');
+            return redirect()->route('record.date');
         elseif (!empty(auth()->user()) && auth()->user()->is_admin == true && empty(session('customer_id')))
-            redirect()->route('record.customer');
+            return redirect()->route('record.customer');
         else {
             $saloon = Saloon::query()
                 ->join('cities', 'city_id', '=', 'cities.id')

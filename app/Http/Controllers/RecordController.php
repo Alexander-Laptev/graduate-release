@@ -171,7 +171,7 @@ class RecordController extends Controller
             $city = City::query()->where('id', '=', session('city_id'))->get('timezone')->first();
 
             $now = Carbon::today($city->timezone);
-            $week = $now->addDays(8)->format('Y-m-d');
+            $week = $now->addDays(7);
 
             //Все даты от текущей в течении недели, в которые работает сотрудник
             $dates = Schedule_master::query()->join('dates', 'schedule_masters.date_id', '=', 'dates.id')
@@ -304,7 +304,6 @@ class RecordController extends Controller
 
             return view('record.date', compact(['dates', 'hours', 'oneMinutes', 'twoMinutes', 'threeMinutes', 'fourMinutes', 'times']));
         }
-
     }
 
     public function dateStore(Request $request)

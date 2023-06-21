@@ -170,14 +170,13 @@ class RecordController extends Controller
 
             $city = City::query()->where('id', '=', session('city_id'))->get('timezone')->first();
 
-            $now = Carbon::today('+4');
-            $week = $now->addWeek();
+
 
             //Все даты от текущей в течении недели, в которые работает сотрудник
             $dates = Schedule_master::query()->join('dates', 'schedule_masters.date_id', '=', 'dates.id')
                 ->where('employee_id', '=', session('employee_id'))
-                ->where('dates.date', '>=', $now->format('Y-m-d'))
-                ->where('dates.date', '<=', $week->format('Y-m-d'))
+                ->where('dates.date', '>=', $now = Carbon::today('+4'))
+                ->where('dates.date', '<=', $week = $now->addWeek())
                 ->get(['dates.id as id', 'dates.date', 'schedule_masters.start as start', 'schedule_masters.end as end'])
                 ->sortBy('dates.date');
 

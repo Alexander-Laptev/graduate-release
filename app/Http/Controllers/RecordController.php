@@ -180,6 +180,7 @@ class RecordController extends Controller
                 ->where('dates.date', '<=', $week)
                 ->get(['dates.id as id', 'dates.date', 'schedule_masters.start as start', 'schedule_masters.end as end'])
                 ->sortBy('date');
+            dd($dates);
 
             //Приведение к Carbon
             $dates = $dates->map(function ($date) {

@@ -218,7 +218,6 @@ class RecordController extends Controller
                 $time->end = Carbon::createFromTimeString( $time->end);
                 return $time;
             })->where('id', session('date_id'))->first();
-            dd($timesWork);
 
             //Вычисление времени услуги
             $serviceTime = Service::query()->where('id', '=', session('service_id'))->get('time')->first();

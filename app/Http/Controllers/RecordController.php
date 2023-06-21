@@ -186,7 +186,6 @@ class RecordController extends Controller
                 $date->date = new Carbon($date->date);
                 return $date;
             });
-            dd($dates);
 
             //Все записи в выбранный день выбранного соотрудника
             $records = Record::query()

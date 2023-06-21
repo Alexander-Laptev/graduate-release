@@ -36,7 +36,7 @@ class RecordController extends Controller
 
     public function cityStore(Request $request)
     {
-        $date = Date::query()->where('date', '=', Carbon::now(4)->format('Y-m-d'))->get('id')->first();
+        $date = Date::query()->where('date', '=', Carbon::today('+4'))->get('id')->first();
         $request->session()->put('date_id', $date->id);
         $request->session()->put('city_id', $request->city_id);
         return redirect()->route('home.index');

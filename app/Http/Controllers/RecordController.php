@@ -336,7 +336,7 @@ class RecordController extends Controller
         elseif (empty(session('start')))
             redirect()->route('record.date');
         elseif (!empty(auth()->user()) && auth()->user()->is_admin == true && empty(session('customer_id')))
-            redirect()->route('record');
+            redirect()->route('record.customer');
         else {
             $saloon = Saloon::query()
                 ->join('cities', 'city_id', '=', 'cities.id')

@@ -36,9 +36,12 @@ class RecordController extends Controller
 
     public function cityStore(Request $request)
     {
-        $date = Date::query()->where('date', '=', Carbon::today('+4'))->get('id')->first();
-        $request->session()->put('date_id', $date->id);
         $request->session()->put('city_id', $request->city_id);
+        $city = City::query()->where('id', '=', session('city_id'))->get('timezone')->first();
+
+        $date = Date::query()->where('date', '=', Carbon::today($city->timezone))->get('id')->first();
+        $request->session()->put('date_id', $date->id);
+
         return redirect()->route('home.index');
     }
 
@@ -170,16 +173,13 @@ class RecordController extends Controller
 
             $city = City::query()->where('id', '=', session('city_id'))->get('timezone')->first();
 
-
-
             //Все даты от текущей в течении недели, в которые работает сотрудник
             $dates = Schedule_master::query()->join('dates', 'schedule_masters.date_id', '=', 'dates.id')
                 ->where('employee_id', '=', session('employee_id'))
-                ->where('dates.date', '>=', Carbon::today('+4'))
-                ->where('dates.date', '<', Carbon::today('+4')->addWeek())
+                ->where('dates.date', '>=', Carbon::today($city->timezone))
+                ->where('dates.date', '<', Carbon::today($city->timezone)->addWeek())
                 ->get(['dates.id as id', 'dates.date', 'schedule_masters.start as start', 'schedule_masters.end as end'])
                 ->sortBy('dates.date');
-
 
             //Приведение к Carbon
             $dates = $dates->map(function ($date) {
@@ -286,7 +286,7 @@ class RecordController extends Controller
                 while($time['timeStart'] <= $time['timeClose'])
                 {
                     $start = $time['timeStart'];
-                    $now = Carbon::now('+4');
+                    $now = Carbon::now($city->timezone);
                     $s = Carbon::create($d->date->year, $d->date->month, $d->date->day, $start->hour, $start->minute, $start->second);
                     $t = Carbon::create($now->year, $now->month, $now->day, $now->hour, $now->minute, $now->second);
                     if($s >= $t)

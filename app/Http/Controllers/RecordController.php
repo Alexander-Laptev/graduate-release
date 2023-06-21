@@ -37,7 +37,6 @@ class RecordController extends Controller
     public function cityStore(Request $request)
     {
         $date = Date::query()->where('date', '=', Carbon::today('+4'))->get('id')->first();
-        dd($date);
         $request->session()->put('date_id', $date->id);
         $request->session()->put('city_id', $request->city_id);
         return redirect()->route('home.index');
@@ -219,6 +218,7 @@ class RecordController extends Controller
                 $time->end = Carbon::createFromTimeString( $time->end);
                 return $time;
             })->where('id', session('date_id'))->first();
+            dd($timesWork);
 
             //Вычисление времени услуги
             $serviceTime = Service::query()->where('id', '=', session('service_id'))->get('time')->first();
